@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/reset"
+        android:title="Reset"/>
+
+    <item
+        android:id="@+id/changeNum"
+        android:title="Change robot/round number"/>
+    <item
+        android:id="@+id/changeTheme"
+        android:title="Change Theme"/>
+
+
+</menu>
