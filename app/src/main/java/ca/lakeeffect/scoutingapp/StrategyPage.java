@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 /**
  * Created by Ajay on 9/25/2016.
  */
-public class TeleopPage extends Fragment {
+public class StrategyPage extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -19,7 +19,7 @@ public class TeleopPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState){
 
-        View view = inflator.inflate(R.layout.teleoppage, container, false);
+        View view = inflator.inflate(R.layout.strategypage, container, false);
 
         view.setTag("page2");
 

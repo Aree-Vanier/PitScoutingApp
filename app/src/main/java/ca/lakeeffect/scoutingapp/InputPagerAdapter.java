@@ -2,7 +2,6 @@ package ca.lakeeffect.scoutingapp;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
@@ -14,29 +13,29 @@ public class InputPagerAdapter extends FragmentStatePagerAdapter {
 
     final int PAGENUM = 3;
 
-    public AutoPage autoPage;
-    public TeleopPage teleopPage;
-    public EndgamePage endgamePage;
+    public RobotPage robotPage;
+    public StrategyPage strategyPage;
+    public PhotoPage photoPage;
 
 
     public InputPagerAdapter(FragmentManager fm) {
         super(fm);
-        autoPage = new AutoPage();
-        teleopPage = new TeleopPage();
-        endgamePage = new EndgamePage();
+        robotPage = new RobotPage();
+        strategyPage = new StrategyPage();
+        photoPage = new PhotoPage();
     }
     @Override
     public Fragment getItem(int position) {
         switch(position){
             case 0:
-                autoPage = new AutoPage();
-                return autoPage;
+                robotPage = new RobotPage();
+                return robotPage;
             case 1:
-                teleopPage = new TeleopPage();
-                return teleopPage;
+                strategyPage = new StrategyPage();
+                return strategyPage;
             case 2:
-                endgamePage = new EndgamePage();
-                return endgamePage;
+                photoPage = new PhotoPage();
+                return photoPage;
         }
         return null;
     }
@@ -50,11 +49,11 @@ public class InputPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch(position){
             case 0:
-                return "Autonomous Round";
+                return "Robot Info ";
             case 1:
-                return "TeleOp Round";
+                return "Strategy Info";
             case 2:
-                return "Endgame";
+                return "Photos";
         }
         return "";
     }

@@ -46,18 +46,13 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -276,7 +271,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public String[] getData(){
-        if(((RatingBar) pagerAdapter.teleopPage.getView().findViewById(R.id.driveRating)).getRating() <= 0){
+        if(((RatingBar) pagerAdapter.strategyPage.getView().findViewById(R.id.driveRating)).getRating() <= 0){
             runOnUiThread(new Thread(){
                 public void run(){
                     new Toast(MainActivity.this).makeText(MainActivity.this, "You didn't rate the drive ability!", Toast.LENGTH_LONG).show();
@@ -284,14 +279,14 @@ public class MainActivity extends AppCompatActivity{
             });
             return null;
         }
-        if(((RadioGroup) pagerAdapter.autoPage.getView().findViewById(R.id.autoBaselineGroup)).getCheckedRadioButtonId() <= 0){
+        if(((RadioGroup) pagerAdapter.robotPage.getView().findViewById(R.id.autoBaselineGroup)).getCheckedRadioButtonId() <= 0){
             runOnUiThread(new Thread(){
                 public void run(){
                     new Toast(MainActivity.this).makeText(MainActivity.this, "You forgot to specify if it crossed the baseline! Go back to the teleop page!", Toast.LENGTH_LONG).show();
                 }
             });
             return null;
-        }if(((RadioGroup) pagerAdapter.endgamePage.getView().findViewById(R.id.endgameClimbGroup)).getCheckedRadioButtonId() <= 0){
+        }if(((RadioGroup) pagerAdapter.photoPage.getView().findViewById(R.id.endgameClimbGroup)).getCheckedRadioButtonId() <= 0){
             runOnUiThread(new Thread(){
                 public void run(){
                     new Toast(MainActivity.this).makeText(MainActivity.this, "You forgot to specify if it climbed!", Toast.LENGTH_LONG).show();
@@ -313,8 +308,8 @@ public class MainActivity extends AppCompatActivity{
 
         data.append("," + round);
 
-        TableLayout layout = (TableLayout) pagerAdapter.autoPage.getView().findViewById(R.id.autopagetablelayout);
-        //            PercentRelativeLayout layout = (PercentRelativeLayout) findViewById(R.layout.autopage);
+        TableLayout layout = (TableLayout) pagerAdapter.robotPage.getView().findViewById(R.id.autopagetablelayout);
+        //            PercentRelativeLayout layout = (PercentRelativeLayout) findViewById(R.layout.robotpage);
 //            data.append("auto");
 
         StringBuilder extradata = new StringBuilder();
@@ -369,13 +364,13 @@ public class MainActivity extends AppCompatActivity{
         }
         //AUTO GEAR
 //            labels.append("autoGear,");
-//            data.append(","+(((Spinner)pagerAdapter.autoPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1));
+//            data.append(","+(((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1));
         autolabels[5] = "autoGear,";
-        boolean autoGearSimpleData = (((Spinner)pagerAdapter.autoPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1) >= 1;
+        boolean autoGearSimpleData = (((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1) >= 1;
         autodata[5] = "," + (autoGearSimpleData ? 1 : 0);
 
         extralabels.append("autoGearPlacement,");
-        extradata.append(","+(((Spinner)pagerAdapter.autoPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1));
+        extradata.append(","+(((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1));
 
         for(int i=0;i<autodata.length;i++){
             data.append(autodata[i]);
@@ -386,8 +381,8 @@ public class MainActivity extends AppCompatActivity{
 
         DisplayMetrics m = getResources().getDisplayMetrics();
         PercentRelativeLayout v = null;
-        if(m.widthPixels/m.density < 600) v = ((PercentRelativeLayout) ((ScrollView) pagerAdapter.teleopPage.getView()).getChildAt(0));
-        else v = ((PercentRelativeLayout) pagerAdapter.teleopPage.getView());
+        if(m.widthPixels/m.density < 600) v = ((PercentRelativeLayout) ((ScrollView) pagerAdapter.strategyPage.getView()).getChildAt(0));
+        else v = ((PercentRelativeLayout) pagerAdapter.strategyPage.getView());
 
         layout = (TableLayout) v.findViewById(R.id.teleoptablelayout);
 //            data.append("\nteleop");
@@ -434,7 +429,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         }
-        extradata.append(","+((RatingBar) pagerAdapter.teleopPage.getView().findViewById(R.id.driveRating)).getRating());
+        extradata.append(","+((RatingBar) pagerAdapter.strategyPage.getView().findViewById(R.id.driveRating)).getRating());
         extralabels.append("Drive Rating,");
 
         for(int i=0;i<teledata.length;i++){
@@ -444,7 +439,7 @@ public class MainActivity extends AppCompatActivity{
             labels.append(telelabels[i]);
         }
 
-        v = ((PercentRelativeLayout) ((ScrollView) pagerAdapter.endgamePage.getView()).getChildAt(0));
+        v = ((PercentRelativeLayout) ((ScrollView) pagerAdapter.photoPage.getView()).getChildAt(0));
         for(int i=0; i<v.getChildCount(); i++){
             if(v.getChildAt(i) instanceof RadioGroup){
                 int pressed = -1;
@@ -652,15 +647,15 @@ public class MainActivity extends AppCompatActivity{
 //        viewPager.setOffscreenPageLimit(3);
 //        viewPager.getAdapter().notifyDataSetChanged();
 
-        ((RadioGroup) pagerAdapter.autoPage.getView().findViewById(R.id.autoBaselineGroup)).clearCheck();
-//        ((RadioGroup) pagerAdapter.autoPage.getView().findViewById(R.id.autoGearGroup)).clearCheck();
-        ((RadioGroup) pagerAdapter.endgamePage.getView().findViewById(R.id.endgameClimbGroup)).clearCheck();
-        ((EditText) pagerAdapter.endgamePage.getView().findViewById(R.id.endgameComments)).setText("");
-        ((CheckBox) pagerAdapter.endgamePage.getView().findViewById(R.id.defense)).setChecked(false);
-        ((CheckBox) pagerAdapter.endgamePage.getView().findViewById(R.id.died)).setChecked(false);
-        ((RatingBar) pagerAdapter.teleopPage.getView().findViewById(R.id.driveRating)).setRating(0);
-//        ((SeekBar) pagerAdapter.endgamePage.getView().findViewById(R.id.rotors)).setProgress(0);
-        ((Spinner) pagerAdapter.autoPage.getView().findViewById(R.id.autoPeg)).setSelection(1);
+        ((RadioGroup) pagerAdapter.robotPage.getView().findViewById(R.id.autoBaselineGroup)).clearCheck();
+//        ((RadioGroup) pagerAdapter.robotPage.getView().findViewById(R.id.autoGearGroup)).clearCheck();
+        ((RadioGroup) pagerAdapter.photoPage.getView().findViewById(R.id.endgameClimbGroup)).clearCheck();
+        ((EditText) pagerAdapter.photoPage.getView().findViewById(R.id.endgameComments)).setText("");
+        ((CheckBox) pagerAdapter.photoPage.getView().findViewById(R.id.defense)).setChecked(false);
+        ((CheckBox) pagerAdapter.photoPage.getView().findViewById(R.id.died)).setChecked(false);
+        ((RatingBar) pagerAdapter.strategyPage.getView().findViewById(R.id.driveRating)).setRating(0);
+//        ((SeekBar) pagerAdapter.photoPage.getView().findViewById(R.id.rotors)).setProgress(0);
+        ((Spinner) pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).setSelection(1);
 
     }
 
