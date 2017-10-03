@@ -78,13 +78,13 @@ public class MainActivity extends AppCompatActivity{
     InputPagerAdapter pagerAdapter;
     ViewPager viewPager;
 
-    BluetoothSocket bluetoothsocket;
+//    BluetoothSocket bluetoothsocket;
     ArrayList<String> pendingmessages = new ArrayList<>();
     boolean connected;
 
     Button moreOptions;
 
-    Thread bluetoothConnectionThread;
+//    Thread bluetoothConnectionThread;
 
     ListenerThread listenerThread;
 
@@ -202,8 +202,8 @@ public class MainActivity extends AppCompatActivity{
 //        thread.start();
 
         //start listening
-        Thread thread = new Thread(new ListenerThread(bluetoothsocket));
-        thread.start();
+//        Thread thread = new Thread(new ListenerThread(bluetoothsocket));
+//        thread.start();
 
 
         start = System.nanoTime();
@@ -227,8 +227,8 @@ public class MainActivity extends AppCompatActivity{
                             }
                         });
 //                        if(bluetoothConnectionThread == null) setupBluetoothConnections();
-                        Thread thread1 = new Thread(bluetoothConnectionThread);
-                        thread1.start();
+//                        Thread thread1 = new Thread(bluetoothConnectionThread);
+//                        thread1.start();
                         break;
 //                    case BluetoothDevice.ACTION_ACL_CONNECTED:
 //                        try {
