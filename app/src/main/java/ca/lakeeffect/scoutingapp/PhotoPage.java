@@ -109,6 +109,7 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
     //To add new image
     private void updateList(Bitmap image) {
         images.add(image);
+        names.add("3");
         CustomList photoList = new CustomList(this.getActivity(), names.toArray(new String[names.size()]), images.toArray(new Bitmap[images.size()]), R.layout.photo_list);
         list.setAdapter(photoList);
     }
@@ -124,6 +125,7 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
             System.out.println(name);
             Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/" + name, opt);
             images.add(image);
+            names.add(i+"");
         }
         System.out.println("Loading List");
         CustomList photoList = new CustomList(this.getActivity(), names.toArray(new String[names.size()]), images.toArray(new Bitmap[images.size()]), R.layout.photo_list);
