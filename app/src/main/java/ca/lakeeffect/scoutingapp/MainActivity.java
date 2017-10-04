@@ -195,6 +195,8 @@ public class MainActivity extends AppCompatActivity{
 
         robotNumText.setText("Round: " + round + "  Robot: " + robotNum);
 
+        pagerAdapter.photoPage.robotNum = robotNum;
+
 //        submit.setOnClickListener(this);
 
         //start bluetooth pairing/connection
