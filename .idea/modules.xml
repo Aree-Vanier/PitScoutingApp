@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/PitScoutingApp.iml" filepath="$PROJECT_DIR$/PitScoutingApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/SteamworksScoutingApp.iml" filepath="$PROJECT_DIR$/SteamworksScoutingApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/SteamworksScoutingApp-master.iml" filepath="$PROJECT_DIR$/SteamworksScoutingApp-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

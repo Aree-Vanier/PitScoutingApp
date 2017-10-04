@@ -1,17 +1,14 @@
 package ca.lakeeffect.scoutingapp;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +17,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
@@ -32,13 +26,16 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
     ListView list;
     ArrayList<String> names = new ArrayList<String>();
     ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+    //    Bitmap[] images;
     Button addPhoto;
     int robotNum;
+    BitmapFactory.Options opt;
 
     String lastPhoto = "";
     String lastPhotoSD = "";
 
     public PhotoPage() {
+        opt = new BitmapFactory.Options();
 //        names.add("Test 1");
 //        names.add("Test 2");
     }
@@ -58,12 +55,11 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
 
         list = ((ListView) ((PercentRelativeLayout) view.findViewById(R.id.photoPage)).findViewById(R.id.photos));
         addPhoto = ((Button) ((PercentRelativeLayout) view.findViewById(R.id.photoPage)).findViewById(R.id.addPhoto));
-
         addPhoto.setOnClickListener(this);
 
         view.setTag("page3");
 
-        reloadList();
+        loadList();
 
 
         return view;
@@ -79,10 +75,10 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
     }
 
     private void dispatchTakePictureIntent() {
-        File direct = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/");
+        File dir = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/");
 
-        if (!direct.exists()) {
-            File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNumt + "/images/");
+        if (!dir.exists()) {
+            File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/");
             wallpaperDirectory.mkdirs();
         }
         Uri path = Uri.fromFile(new File(new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/"), images.size() + ".png"));
@@ -105,16 +101,33 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
         System.out.println("Result");
         if (requestCode == 1 && resultCode == RESULT_OK) {
             System.out.println("Got Image");
-            images.add();
-            names.add("image");
-            reloadList();
+            Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/"+images.size()+".png");
+            updateList(image);
         }
     }
 
-    private void reloadList() {
-        System.out.println("Loading List");
+    //To add new image
+    private void updateList(Bitmap image) {
+        images.add(image);
         CustomList photoList = new CustomList(this.getActivity(), names.toArray(new String[names.size()]), images.toArray(new Bitmap[images.size()]), R.layout.photo_list);
         list.setAdapter(photoList);
     }
 
+    //For initial load
+    private void loadList() {
+        File dir = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/");
+        File[] files = dir.listFiles();
+        System.out.println(files.length);
+        images.clear();
+        for (int i = 0; i < files.length; i++) {
+            String name = files[i].getName();
+            System.out.println(name);
+            Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/" + name, opt);
+            images.add(image);
+        }
+        System.out.println("Loading List");
+        CustomList photoList = new CustomList(this.getActivity(), names.toArray(new String[names.size()]), images.toArray(new Bitmap[images.size()]), R.layout.photo_list);
+        list.setAdapter(photoList);
+    }
 }
+
