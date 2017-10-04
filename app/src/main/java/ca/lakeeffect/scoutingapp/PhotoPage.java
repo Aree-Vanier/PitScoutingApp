@@ -79,7 +79,12 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
     }
 
     private void dispatchTakePictureIntent() {
-//        saveLastPhoto();
+        File direct = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/");
+
+        if (!direct.exists()) {
+            File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNumt + "/images/");
+            wallpaperDirectory.mkdirs();
+        }
         Uri path = Uri.fromFile(new File(new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/"), images.size() + ".png"));
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, path);
@@ -94,20 +99,17 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
         }
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        System.out.println("Result");
-//        if (requestCode == 1 && resultCode == RESULT_OK) {
-//            System.out.println("Got Image");
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-////            savePhoto(robotNum, imageBitmap);
-//            images.add(Bitmap.createBitmap(imageBitmap));
-//            names.add("image");
-//            reloadList();
-//        }
-//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("Result");
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            System.out.println("Got Image");
+            images.add();
+            names.add("image");
+            reloadList();
+        }
+    }
 
     private void reloadList() {
         System.out.println("Loading List");
@@ -115,82 +117,4 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
         list.setAdapter(photoList);
     }
 
-    private void savePhoto(int robot){ //, Bitmap image) {
-        File direct = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robot + "/images/");
-
-        if (!direct.exists()) {
-            File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robot + "/images/");
-            wallpaperDirectory.mkdirs();
-        }
-
-//        File file = new File(new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robot + "/images/"), images.size() + ".png");
-//        if (file.exists()) {
-//            file.delete();
-//        }
-//        try {
-//            FileOutputStream out = new FileOutputStream(file);
-//            image.compress(Bitmap.CompressFormat.PNG, 100, out);
-//            out.flush();
-//            out.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
-
-//    /**
-//     * Saves the path of the newest images
-//     */
-//    private void saveLastPhoto() {
-//        lastPhotoSD = lastOnSD();
-//        lastPhoto = lastOnMem();
-//    }
-//
-//
-//    /**
-//     *
-//     * @param temp The image returned by the intent
-//     * @return The photo form the SD card or Memory if changed, otherwise the photo from the intent
-//     */
-//    private Bitmap getPhoto(Bitmap temp) {
-//        if(lastPhoto != lastOnMem()){
-//            //get from mem
-//            return temp;
-//        }
-//        else if(lastPhotoSD != lastOnSD()) {
-//            //get from SD
-//            return temp;
-//        }
-//        // Return same image
-//        else return temp;
-//    }
-//
-//    /**
-//     * Gets the path of the newest image on the SD card
-//     * @return Image path
-//     */
-//    private String lastOnSD() {
-//        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
-//            File dir = new File(Environment.getExternalStorageDirectory() + "/DCIM/Camera");
-//            try {
-//                return dir.listFiles()[0].getCanonicalPath();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                return "";
-//            }
-//        }
-//        return "";
-//    }
-//    /**
-//     * Gets the path of the newest image on the system memory card
-//     * @return Image path
-//     */
-//    private String lastOnMem() {
-//        File dir = new File(Environment.getExternalStorageDirectory() + "/DCIM/Camera");
-//        try {
-//            return dir.listFiles()[0].getCanonicalPath();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return "";
-//        }
-//    }
 }
