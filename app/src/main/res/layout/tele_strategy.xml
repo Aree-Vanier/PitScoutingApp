@@ -11,12 +11,292 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/teleoptablelayout"
+        android:id="@+id/teletablelayout"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-    </TableLayout>
+        <TableRow
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/gearHeader">
+
+            <TextView
+                android:layout_weight="1"
+                android:text="Gears"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="25dp"
+                android:textStyle="bold"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:id="@+id/expected">
+
+            <TextView
+                android:text="Number Expected:"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:layout_gravity="center_vertical"/>
+
+            <EditText
+                android:hint="#"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:inputType="numberDecimal"
+                android:id="@+id/expectedGears"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:id="@+id/gearLoading">
+
+            <TextView
+                android:text="Loading:"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textSize="17dp"
+                android:id="@+id/textView3"
+                android:layout_gravity="center_vertical"/>
+
+            <TableLayout
+                android:layout_weight="1"
+                android:gravity="center">
+                <TableRow
+                    android:weightSum="2"
+                    android:gravity="center">
+                    <CheckBox
+                        android:layout_weight="1"
+                        android:id="@+id/humanGearLoading"
+                        android:text="Human"
+                        android:gravity="left|center_vertical"/>
+                    <CheckBox
+                        android:layout_weight="1"
+                        android:id="@+id/floorGearLoading"
+                        android:text = "Floor"
+                        android:gravity="left|center_vertical"/>
+                </TableRow>
+            </TableLayout>
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:id="@+id/assist">
+
+            <TextView
+                android:text="Pilot assisted scoring:"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:id="@+id/textView4"
+                android:layout_gravity="center_vertical"/>
+
+            <CheckBox
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:id="@+id/assistedScoring"/>
+
+        </TableRow>
+
+        <TableRow
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fuelHeader">
+
+            <TextView
+                android:layout_weight="1"
+                android:text="Fuel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="25dp"
+                android:textStyle="bold"/>
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:id="@+id/fuelLoading">
+
+            <TextView
+                android:text="Loading:"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textSize="17dp"
+                android:layout_gravity="center_vertical"/>
+
+            <TableLayout
+                android:layout_weight="1"
+                android:gravity="center">
+                <TableRow
+                    android:weightSum="2"
+                    android:gravity="center">
+                    <CheckBox
+                        android:layout_weight="1"
+                        android:id="@+id/humanFuelLoading"
+                        android:text="Human"
+                        android:gravity="left|center_vertical"/>
+                    <CheckBox
+                        android:layout_weight="1"
+                        android:id="@+id/floorFuelLoading"
+                        android:text = "Floor"
+                        android:gravity="left|center_vertical"/>
+                </TableRow>
+                <TableRow
+                    android:weightSum="1"
+                    android:gravity="center">
+                    <CheckBox
+                        android:layout_weight="1"
+                        android:id="@+id/hopperFuelLoading"
+                        android:text="Hopper"
+                        android:layout_gravity="center"
+                        android:gravity="left|center_vertical"/>
+                </TableRow>
+            </TableLayout>
+
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:id="@+id/boiler">
+
+            <TextView
+                android:text="Boiler:"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:layout_gravity="center_vertical"/>
+
+            <TableLayout
+                android:layout_weight="1"
+                android:gravity="center">
+                <TableRow
+                    android:weightSum="2"
+                    android:gravity="center">
+                    <CheckBox
+                        android:layout_weight="1"
+                        android:id="@+id/highBoiler"
+                        android:text="High"
+                        android:gravity="left|center_vertical"/>
+                    <CheckBox
+                        android:layout_weight="1"
+                        android:id="@+id/lowBoiler"
+                        android:text = "Low"
+                        android:gravity="left|center_vertical"/>
+                </TableRow>
+            </TableLayout>
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:id="@+id/expectedC">
+
+            <TextView
+                android:text="Cycles Expected:"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:layout_gravity="center_vertical"/>
+
+            <EditText
+                android:hint="#"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:inputType="numberDecimal"
+                android:id="@+id/fuelCyclesExpected"/>
+        </TableRow>
+
+            <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:id="@+id/capacity">
+
+            <TextView
+                android:text="Fuel Capacity:"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:layout_gravity="center_vertical"/>
+
+            <EditText
+                android:hint="#"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:inputType="number"
+                android:id="@+id/fuelCapacity"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:id="@+id/accuracy">
+
+            <TextView
+                android:text="Accuracy %:"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:layout_gravity="center_vertical"/>
+
+            <EditText
+                android:hint="#"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:inputType="number"
+                android:id="@+id/fuelAccuracy"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:id="@+id/time">
+
+            <TextView
+                android:text="Hopper Empty Time:"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:layout_gravity="center_vertical"/>
+
+            <EditText
+                android:hint="#"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:inputType="numberDecimal"
+                android:id="@+id/hopperEmptyTime"/>
+        </TableRow>
+        <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:id="@+id/pos">
+
+        <EditText
+            android:hint="Shooting Positions"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:inputType="text"
+            android:id="@+id/shootingPositions"/>
+    </TableRow>
+
+
+        </TableLayout>
+
 
 </android.support.percent.PercentRelativeLayout>
 </ScrollView>
