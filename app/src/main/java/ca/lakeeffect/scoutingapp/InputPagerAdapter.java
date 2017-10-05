@@ -11,18 +11,19 @@ import android.support.v4.app.FragmentStatePagerAdapter;
  */
 public class InputPagerAdapter extends FragmentStatePagerAdapter {
 
-    final int PAGENUM = 3;
+    final int PAGENUM = 4;
 
     public RobotPage robotPage;
-    public StrategyPage strategyPage;
+    public AutoStrategy autoStrategy;
     public PhotoPage photoPage;
-
+    public TeleStrategy teleStrategy;
 
     public InputPagerAdapter(FragmentManager fm) {
         super(fm);
         robotPage = new RobotPage();
-        strategyPage = new StrategyPage();
+        autoStrategy = new AutoStrategy();
         photoPage = new PhotoPage();
+        teleStrategy = new TeleStrategy();
     }
     @Override
     public Fragment getItem(int position) {
@@ -31,9 +32,12 @@ public class InputPagerAdapter extends FragmentStatePagerAdapter {
                 robotPage = new RobotPage();
                 return robotPage;
             case 1:
-                strategyPage = new StrategyPage();
-                return strategyPage;
+                autoStrategy = new AutoStrategy();
+                return autoStrategy;
             case 2:
+                teleStrategy = new TeleStrategy();
+                return teleStrategy;
+            case 3:
                 photoPage = new PhotoPage();
                 return photoPage;
         }
@@ -49,10 +53,12 @@ public class InputPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch(position){
             case 0:
-                return "Robot Info ";
+                return "Robot ";
             case 1:
-                return "Strategy Info";
+                return "Auto Strategy";
             case 2:
+                return "Teleop Strategy";
+            case 3:
                 return "Photos";
         }
         return "";

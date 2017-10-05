@@ -51,13 +51,13 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState) {
 //        images.add(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
 //        images.add(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
-        View view = inflator.inflate(R.layout.photopage, container, false);
+        View view = inflator.inflate(R.layout.photo_page, container, false);
 
         list = ((ListView) ((PercentRelativeLayout) view.findViewById(R.id.photoPage)).findViewById(R.id.photos));
         addPhoto = ((Button) ((PercentRelativeLayout) view.findViewById(R.id.photoPage)).findViewById(R.id.addPhoto));
         addPhoto.setOnClickListener(this);
 
-        view.setTag("page3");
+        view.setTag("page4");
 
         loadList();
 
@@ -106,9 +106,16 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
         }
     }
 
+    private float target = 1000;
+
+
     //To add new image
     private void updateList(Bitmap image) {
-        images.add(image);
+        float h = image.getHeight();
+        float w = image.getWidth();
+        images.add(Bitmap.createScaledBitmap(image, (int) (target*(w/h)), (int)target, true));
+
+        image.recycle();
         names.add("3");
         CustomList photoList = new CustomList(this.getActivity(), names.toArray(new String[names.size()]), images.toArray(new Bitmap[images.size()]), R.layout.photo_list);
         list.setAdapter(photoList);
@@ -118,14 +125,21 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
     private void loadList() {
         File dir = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/");
         File[] files = dir.listFiles();
-        System.out.println(files.length);
-        images.clear();
-        for (int i = 0; i < files.length; i++) {
-            String name = files[i].getName();
-            System.out.println(name);
-            Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/" + name, opt);
-            images.add(image);
-            names.add(i+"");
+        if(files != null) {
+            for (int i = 0; i < images.size(); i++) {
+                images.get(i).recycle();
+            }
+            images.clear();
+            for (int i = 0; i < files.length; i++) {
+                String name = files[i].getName();
+                System.out.println(name);
+                Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/" + name, opt);
+                float h = image.getHeight();
+                float w = image.getWidth();
+                images.add(Bitmap.createScaledBitmap(image, (int) (target * (w / h)), (int) target, true));
+                image.recycle();
+                names.add(i + "");
+            }
         }
         System.out.println("Loading List");
         CustomList photoList = new CustomList(this.getActivity(), names.toArray(new String[names.size()]), images.toArray(new Bitmap[images.size()]), R.layout.photo_list);

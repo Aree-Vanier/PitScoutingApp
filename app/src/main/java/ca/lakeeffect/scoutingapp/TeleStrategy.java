@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 /**
  * Created by Ajay on 9/25/2016.
  */
-public class RobotPage extends Fragment{
+public class TeleStrategy extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -19,12 +19,10 @@ public class RobotPage extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState){
 
-        View view = inflator.inflate(R.layout.robot_page, container, false);
+        View view = inflator.inflate(R.layout.tele_strategy, container, false);
 
-        view.setTag("page1");
+        view.setTag("page3");
 
-//        ((TextView) view.findViewById(R.id.autoPeg)).setTextSize(15);
         return view;
-
     }
 }

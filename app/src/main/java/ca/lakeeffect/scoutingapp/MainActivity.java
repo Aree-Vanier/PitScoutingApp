@@ -3,7 +3,6 @@ package ca.lakeeffect.scoutingapp;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -176,6 +175,8 @@ public class MainActivity extends AppCompatActivity{
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(3);
 
+        pagerAdapter.photoPage.robotNum = robotNum;
+        System.out.println(pagerAdapter.photoPage.robotNum + "\t" + robotNum);
 
 //        NumberPicker np = (NumberPicker) findViewm counters
 //        np.setWrapSelectorWheel(false);ById(R.id.numberPicker);
@@ -195,7 +196,6 @@ public class MainActivity extends AppCompatActivity{
 
         robotNumText.setText("Round: " + round + "  Robot: " + robotNum);
 
-        pagerAdapter.photoPage.robotNum = robotNum;
 
 //        submit.setOnClickListener(this);
 
@@ -272,303 +272,296 @@ public class MainActivity extends AppCompatActivity{
         registerReceiver(bState,filter);
     }
 
-    public String[] getData(){
-        if(((RatingBar) pagerAdapter.strategyPage.getView().findViewById(R.id.driveRating)).getRating() <= 0){
-            runOnUiThread(new Thread(){
-                public void run(){
-                    new Toast(MainActivity.this).makeText(MainActivity.this, "You didn't rate the drive ability!", Toast.LENGTH_LONG).show();
-                }
-            });
-            return null;
-        }
-        if(((RadioGroup) pagerAdapter.robotPage.getView().findViewById(R.id.autoBaselineGroup)).getCheckedRadioButtonId() <= 0){
-            runOnUiThread(new Thread(){
-                public void run(){
-                    new Toast(MainActivity.this).makeText(MainActivity.this, "You forgot to specify if it crossed the baseline! Go back to the teleop page!", Toast.LENGTH_LONG).show();
-                }
-            });
-            return null;
-        }if(((RadioGroup) pagerAdapter.photoPage.getView().findViewById(R.id.endgameClimbGroup)).getCheckedRadioButtonId() <= 0){
-            runOnUiThread(new Thread(){
-                public void run(){
-                    new Toast(MainActivity.this).makeText(MainActivity.this, "You forgot to specify if it climbed!", Toast.LENGTH_LONG).show();
-                }
-            });
-            return null;
-        }
-
-        final StringBuilder data = new StringBuilder();
-
-        //The Labels
-        final StringBuilder labels = new StringBuilder();
-        labels.append("Date and Time Of Match,Round,");
-
-        DateFormat dateFormat = new SimpleDateFormat("dd HH:mm:ss");
-        Date date = new Date();
-
-        data.append("\n" + dateFormat.format(date));
-
-        data.append("," + round);
-
-        TableLayout layout = (TableLayout) pagerAdapter.robotPage.getView().findViewById(R.id.autopagetablelayout);
-        //            PercentRelativeLayout layout = (PercentRelativeLayout) findViewById(R.layout.robotpage);
-//            data.append("auto");
-
-        StringBuilder extradata = new StringBuilder();
-        StringBuilder extralabels = new StringBuilder();
-
-        String[] autodata = new String[6];
-        String[] autolabels = new String[6];
-        int recordedData = 0;
-        for(int i=0;i<layout.getChildCount();i++){
-            for(int s = 0; s<((TableRow) layout.getChildAt(i)).getChildCount(); s++) {
-                if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof RadioGroup) {
-                    int pressed = -1;
-                    for(int r=0;r<((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getChildCount();r++){
-                        if(((RadioButton) ((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getChildAt(r)).isChecked()){
-                            pressed = 1-r;
-                        }
-                    }
-                    autodata[4] = "," + pressed;
-                    autolabels[4] = getResources().getResourceEntryName(((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",";
-//                        data.append("," + pressed);
-//                        labels.append(getResources().getResourceEntryName(((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",");
-                    recordedData++;
-                }
-                else if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof Counter) {
-                    String currentdata = "," + String.valueOf(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).count);
-                    String currentlabel = getResources().getResourceEntryName(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",";
-                    switch(recordedData) {
-                        case 1:
-                            autodata[2] = currentdata;
-                            autolabels[2] = currentlabel;
-                            break;
-                        case 2:
-                            autodata[3] = currentdata;
-                            autolabels[3] = currentlabel;
-                            break;
-                        case 3:
-                            autodata[0] = currentdata;
-                            autolabels[0] = currentlabel;
-                            break;
-                        case 4:
-                            autodata[1] = currentdata;
-                            autolabels[1] = currentlabel;
-                            break;
-
-                    }
-                    recordedData++;
-//                        data.append();
-//                        labels.append();
-
-                }
-            }
-        }
-        //AUTO GEAR
-//            labels.append("autoGear,");
-//            data.append(","+(((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1));
-        autolabels[5] = "autoGear,";
-        boolean autoGearSimpleData = (((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1) >= 1;
-        autodata[5] = "," + (autoGearSimpleData ? 1 : 0);
-
-        extralabels.append("autoGearPlacement,");
-        extradata.append(","+(((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1));
-
-        for(int i=0;i<autodata.length;i++){
-            data.append(autodata[i]);
-        }
-        for(int i=0;i<autolabels.length;i++){
-            labels.append(autolabels[i]);
-        }
-
-        DisplayMetrics m = getResources().getDisplayMetrics();
-        PercentRelativeLayout v = null;
-        if(m.widthPixels/m.density < 600) v = ((PercentRelativeLayout) ((ScrollView) pagerAdapter.strategyPage.getView()).getChildAt(0));
-        else v = ((PercentRelativeLayout) pagerAdapter.strategyPage.getView());
-
-        layout = (TableLayout) v.findViewById(R.id.teleoptablelayout);
-//            data.append("\nteleop");
-        String[] teledata = new String[6];
-        String[] telelabels = new String[6];
-        recordedData = 0;
-        for(int i=0;i<layout.getChildCount();i++) {
-            for (int s = 0; s < ((TableRow) layout.getChildAt(i)).getChildCount(); s++) {
-                if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof Counter) {
-                    String currentdata = ("," + String.valueOf(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).count));
-                    String currentlabel = (getResources().getResourceEntryName(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",");
-                    if(recordedData == 6){
-                        extradata.append(currentdata);
-                        extralabels.append(currentlabel);
-                    }else {
-                        teledata[recordedData] = (currentdata);
-                        telelabels[recordedData] = (currentlabel);
-                    }
-                    recordedData++;
-                }
-                if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof HigherCounter) {
-                    String currentdata = "," + String.valueOf(((HigherCounter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).count);
-                    String currentlabel = getResources().getResourceEntryName(((HigherCounter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",";
-                    switch(recordedData) {
-                        case 0:
-                            teledata[2] = currentdata;
-                            telelabels[2] = currentlabel;
-                            break;
-                        case 1:
-                            teledata[3] = currentdata;
-                            telelabels[3] = currentlabel;
-                            break;
-                        case 2:
-                            teledata[0] = currentdata;
-                            telelabels[0] = currentlabel;
-                            break;
-                        case 3:
-                            teledata[1] = currentdata;
-                            telelabels[1] = currentlabel;
-                            break;
-
-                    }
-                    recordedData++;
-                }
-            }
-        }
-        extradata.append(","+((RatingBar) pagerAdapter.strategyPage.getView().findViewById(R.id.driveRating)).getRating());
-        extralabels.append("Drive Rating,");
-
-        for(int i=0;i<teledata.length;i++){
-            data.append(teledata[i]);
-        }
-        for(int i=0;i<autolabels.length;i++){
-            labels.append(telelabels[i]);
-        }
-
-        v = ((PercentRelativeLayout) ((ScrollView) pagerAdapter.photoPage.getView()).getChildAt(0));
-        for(int i=0; i<v.getChildCount(); i++){
-            if(v.getChildAt(i) instanceof RadioGroup){
-                int pressed = -1;
-                for(int r=0;r<((RadioGroup) v.getChildAt(i)).getChildCount();r++){
-                    if(((RadioButton) ((RadioGroup) v.getChildAt(i)).getChildAt(r)).isChecked()){
-                        pressed = r;
-                    }
-                }
-                data.append("," + (pressed == 0 ? 1: 0));
-                labels.append("Did Climb,");
-                extradata.append("," + pressed);
-                extralabels.append("ClimbExtraData (Includes no attempt),");
-            }
-            if(v.getChildAt(i) instanceof EditText){
-                extradata.append(",\"" + ((EditText) v.getChildAt(i)).getText().toString().replace("\"", "\'").replace(":", ";").replace("\n", "\t") + "\"");
-                extralabels.append(getResources().getResourceEntryName(((EditText) v.getChildAt(i)).getId()) + ",");
-            }
-            if(v.getChildAt(i) instanceof Counter){
-                extradata.append("," + ((Counter) v.getChildAt(i)).count);
-                extralabels.append(getResources().getResourceEntryName(((Counter) v.getChildAt(i)).getId()) + ",");
-            }
-
-            if(v.getChildAt(i) instanceof CheckBox){
-                String currentlabel = getResources().getResourceEntryName(((CheckBox) v.getChildAt(i)).getId()) + ",";
-                String currentdata = "," + (((CheckBox) v.getChildAt(i)).isChecked() ? 1 : 0);
-                if((currentlabel).equals("died,")){
-                    labels.append(currentlabel);
-                    data.append(currentdata);
-                }else {
-                    extralabels.append(currentlabel);
-                    extradata.append(currentdata);
-                }
-            }
-        }
-
-        //add extra data and labels
-        labels.append(extralabels);
-        data.append(extradata);
-
-        labels.append("Scout,");
-        data.append(","+scoutName);
-
-        data.append(",end");//make sure full message has been sent
-        labels.append("placeholder finish");
-
-        return new String[]{data.toString(), labels.toString()};
-    }
-
-    public boolean saveData(){
-        File sdCard = Environment.getExternalStorageDirectory();
-//        File dir = new File (sdCard.getPath() + "/ScoutingData/");
-
-        File file = new File(sdCard.getPath() + "/#ScoutingData/" + robotNum + ".csv");
-
-        try{
-
-            boolean newfile = false;
-            file.getParentFile().mkdirs();
-            if(!file.exists()) {
-                file.createNewFile();
-                newfile = true;
-            }
-
-            FileOutputStream f = new FileOutputStream(file, true);
-
-            OutputStreamWriter out = new OutputStreamWriter(f);
-
-            String[] data = getData();
-
-            if(newfile) out.append(data[1].toString());
-            out.append(data[0].toString());
-            out.close();
-
-            f.close();
-
-//            Thread thread = new Thread(){
+//    public String[] getData(){
+//        if(((RatingBar) pagerAdapter.autoStrategy.getView().findViewById(R.id.driveRating)).getRating() <= 0){
+//            runOnUiThread(new Thread(){
 //                public void run(){
-//                    while(true) {
-//                        System.out.println("aaaa");
-//                        byte[] bytes = new byte[1000];
-//                        try {
-//                            if(!connected){
-//                                pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
-//                                SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
-//                                SharedPreferences.Editor editor = prefs.edit();
-//                                editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
-//                                editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
-//                                editor.apply();
-//                                return;
-//                            }
-//                            int amount = in.read(bytes);
-//                            if (new String(bytes, Charset.forName("UTF-8")).equals("done")) {
-//                                return;
-//                            }
-//                            if(!connected){
-//                                pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
-//                                SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
-//                                SharedPreferences.Editor editor = prefs.edit();
-//                                editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
-//                                editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
-//                                editor.apply();
-//                                return;
-//                            }
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
+//                    new Toast(MainActivity.this).makeText(MainActivity.this, "You didn't rate the drive ability!", Toast.LENGTH_LONG).show();
+//                }
+//            });
+//            return null;
+//        }
+//        if(((RadioGroup) pagerAdapter.robotPage.getView().findViewById(R.id.autoBaselineGroup)).getCheckedRadioButtonId() <= 0){
+//            runOnUiThread(new Thread(){
+//                public void run(){
+//                    new Toast(MainActivity.this).makeText(MainActivity.this, "You forgot to specify if it crossed the baseline! Go back to the teleop page!", Toast.LENGTH_LONG).show();
+//                }
+//            });
+//            return null;
+//        }
+//
+//        final StringBuilder data = new StringBuilder();
+//
+//        //The Labels
+//        final StringBuilder labels = new StringBuilder();
+//        labels.append("Date and Time Of Match,Round,");
+//
+//        DateFormat dateFormat = new SimpleDateFormat("dd HH:mm:ss");
+//        Date date = new Date();
+//
+//        data.append("\n" + dateFormat.format(date));
+//
+//        data.append("," + round);
+//
+//        TableLayout layout = (TableLayout) pagerAdapter.robotPage.getView().findViewById(R.id.autopagetablelayout);
+//        //            PercentRelativeLayout layout = (PercentRelativeLayout) findViewById(R.layout.robot_page);
+////            data.append("auto");
+//
+//        StringBuilder extradata = new StringBuilder();
+//        StringBuilder extralabels = new StringBuilder();
+//
+//        String[] autodata = new String[6];
+//        String[] autolabels = new String[6];
+//        int recordedData = 0;
+//        for(int i=0;i<layout.getChildCount();i++){
+//            for(int s = 0; s<((TableRow) layout.getChildAt(i)).getChildCount(); s++) {
+//                if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof RadioGroup) {
+//                    int pressed = -1;
+//                    for(int r=0;r<((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getChildCount();r++){
+//                        if(((RadioButton) ((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getChildAt(r)).isChecked()){
+//                            pressed = 1-r;
 //                        }
 //                    }
+//                    autodata[4] = "," + pressed;
+//                    autolabels[4] = getResources().getResourceEntryName(((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",";
+////                        data.append("," + pressed);
+////                        labels.append(getResources().getResourceEntryName(((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",");
+//                    recordedData++;
 //                }
-//            };
+//                else if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof Counter) {
+//                    String currentdata = "," + String.valueOf(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).count);
+//                    String currentlabel = getResources().getResourceEntryName(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",";
+//                    switch(recordedData) {
+//                        case 1:
+//                            autodata[2] = currentdata;
+//                            autolabels[2] = currentlabel;
+//                            break;
+//                        case 2:
+//                            autodata[3] = currentdata;
+//                            autolabels[3] = currentlabel;
+//                            break;
+//                        case 3:
+//                            autodata[0] = currentdata;
+//                            autolabels[0] = currentlabel;
+//                            break;
+//                        case 4:
+//                            autodata[1] = currentdata;
+//                            autolabels[1] = currentlabel;
+//                            break;
 //
-//            if(bluetoothsocket != null && bluetoothsocket.isConnected()){
-//                System.out.println("aaaa");
-//                this.out.write((robotNum + ":" + labels.toString() + ":" + data.toString()).getBytes(Charset.forName("UTF-8")));
-//                thread.start();
-//            }else{
-//                pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
-//                SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
-//                SharedPreferences.Editor editor = prefs.edit();
-//                editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
-//                editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
-//                editor.apply();
+//                    }
+//                    recordedData++;
+////                        data.append();
+////                        labels.append();
+//
+//                }
 //            }
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
+//        }
+//        //AUTO GEAR
+////            labels.append("autoGear,");
+////            data.append(","+(((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1));
+//        autolabels[5] = "autoGear,";
+//        boolean autoGearSimpleData = (((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1) >= 1;
+//        autodata[5] = "," + (autoGearSimpleData ? 1 : 0);
+//
+//        extralabels.append("autoGearPlacement,");
+//        extradata.append(","+(((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1));
+//
+//        for(int i=0;i<autodata.length;i++){
+//            data.append(autodata[i]);
+//        }
+//        for(int i=0;i<autolabels.length;i++){
+//            labels.append(autolabels[i]);
+//        }
+//
+//        DisplayMetrics m = getResources().getDisplayMetrics();
+//        PercentRelativeLayout v = null;
+//        if(m.widthPixels/m.density < 600) v = ((PercentRelativeLayout) ((ScrollView) pagerAdapter.autoStrategy.getView()).getChildAt(0));
+//        else v = ((PercentRelativeLayout) pagerAdapter.autoStrategy.getView());
+//
+//        layout = (TableLayout) v.findViewById(R.id.teleoptablelayout);
+////            data.append("\nteleop");
+//        String[] teledata = new String[6];
+//        String[] telelabels = new String[6];
+//        recordedData = 0;
+//        for(int i=0;i<layout.getChildCount();i++) {
+//            for (int s = 0; s < ((TableRow) layout.getChildAt(i)).getChildCount(); s++) {
+//                if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof Counter) {
+//                    String currentdata = ("," + String.valueOf(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).count));
+//                    String currentlabel = (getResources().getResourceEntryName(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",");
+//                    if(recordedData == 6){
+//                        extradata.append(currentdata);
+//                        extralabels.append(currentlabel);
+//                    }else {
+//                        teledata[recordedData] = (currentdata);
+//                        telelabels[recordedData] = (currentlabel);
+//                    }
+//                    recordedData++;
+//                }
+//                if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof HigherCounter) {
+//                    String currentdata = "," + String.valueOf(((HigherCounter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).count);
+//                    String currentlabel = getResources().getResourceEntryName(((HigherCounter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",";
+//                    switch(recordedData) {
+//                        case 0:
+//                            teledata[2] = currentdata;
+//                            telelabels[2] = currentlabel;
+//                            break;
+//                        case 1:
+//                            teledata[3] = currentdata;
+//                            telelabels[3] = currentlabel;
+//                            break;
+//                        case 2:
+//                            teledata[0] = currentdata;
+//                            telelabels[0] = currentlabel;
+//                            break;
+//                        case 3:
+//                            teledata[1] = currentdata;
+//                            telelabels[1] = currentlabel;
+//                            break;
+//
+//                    }
+//                    recordedData++;
+//                }
+//            }
+//        }
+//        extradata.append(","+((RatingBar) pagerAdapter.autoStrategy.getView().findViewById(R.id.driveRating)).getRating());
+//        extralabels.append("Drive Rating,");
+//
+//        for(int i=0;i<teledata.length;i++){
+//            data.append(teledata[i]);
+//        }
+//        for(int i=0;i<autolabels.length;i++){
+//            labels.append(telelabels[i]);
+//        }
+//
+//        v = ((PercentRelativeLayout) ((ScrollView) pagerAdapter.photoPage.getView()).getChildAt(0));
+//        for(int i=0; i<v.getChildCount(); i++){
+//            if(v.getChildAt(i) instanceof RadioGroup){
+//                int pressed = -1;
+//                for(int r=0;r<((RadioGroup) v.getChildAt(i)).getChildCount();r++){
+//                    if(((RadioButton) ((RadioGroup) v.getChildAt(i)).getChildAt(r)).isChecked()){
+//                        pressed = r;
+//                    }
+//                }
+//                data.append("," + (pressed == 0 ? 1: 0));
+//                labels.append("Did Climb,");
+//                extradata.append("," + pressed);
+//                extralabels.append("ClimbExtraData (Includes no attempt),");
+//            }
+//            if(v.getChildAt(i) instanceof EditText){
+//                extradata.append(",\"" + ((EditText) v.getChildAt(i)).getText().toString().replace("\"", "\'").replace(":", ";").replace("\n", "\t") + "\"");
+//                extralabels.append(getResources().getResourceEntryName(((EditText) v.getChildAt(i)).getId()) + ",");
+//            }
+//            if(v.getChildAt(i) instanceof Counter){
+//                extradata.append("," + ((Counter) v.getChildAt(i)).count);
+//                extralabels.append(getResources().getResourceEntryName(((Counter) v.getChildAt(i)).getId()) + ",");
+//            }
+//
+//            if(v.getChildAt(i) instanceof CheckBox){
+//                String currentlabel = getResources().getResourceEntryName(((CheckBox) v.getChildAt(i)).getId()) + ",";
+//                String currentdata = "," + (((CheckBox) v.getChildAt(i)).isChecked() ? 1 : 0);
+//                if((currentlabel).equals("died,")){
+//                    labels.append(currentlabel);
+//                    data.append(currentdata);
+//                }else {
+//                    extralabels.append(currentlabel);
+//                    extradata.append(currentdata);
+//                }
+//            }
+//        }
+//
+//        //add extra data and labels
+//        labels.append(extralabels);
+//        data.append(extradata);
+//
+//        labels.append("Scout,");
+//        data.append(","+scoutName);
+//
+//        data.append(",end");//make sure full message has been sent
+//        labels.append("placeholder finish");
+//
+//        return new String[]{data.toString(), labels.toString()};
+//    }
+//
+//    public boolean saveData(){
+//        File sdCard = Environment.getExternalStorageDirectory();
+////        File dir = new File (sdCard.getPath() + "/ScoutingData/");
+//
+//        File file = new File(sdCard.getPath() + "/#ScoutingData/" + robotNum + ".csv");
+//
+//        try{
+//
+//            boolean newfile = false;
+//            file.getParentFile().mkdirs();
+//            if(!file.exists()) {
+//                file.createNewFile();
+//                newfile = true;
+//            }
+//
+//            FileOutputStream f = new FileOutputStream(file, true);
+//
+//            OutputStreamWriter out = new OutputStreamWriter(f);
+//
+//            String[] data = getData();
+//
+//            if(newfile) out.append(data[1].toString());
+//            out.append(data[0].toString());
+//            out.close();
+//
+//            f.close();
+//
+////            Thread thread = new Thread(){
+////                public void run(){
+////                    while(true) {
+////                        System.out.println("aaaa");
+////                        byte[] bytes = new byte[1000];
+////                        try {
+////                            if(!connected){
+////                                pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
+////                                SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
+////                                SharedPreferences.Editor editor = prefs.edit();
+////                                editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
+////                                editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
+////                                editor.apply();
+////                                return;
+////                            }
+////                            int amount = in.read(bytes);
+////                            if (new String(bytes, Charset.forName("UTF-8")).equals("done")) {
+////                                return;
+////                            }
+////                            if(!connected){
+////                                pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
+////                                SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
+////                                SharedPreferences.Editor editor = prefs.edit();
+////                                editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
+////                                editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
+////                                editor.apply();
+////                                return;
+////                            }
+////                        } catch (IOException e) {
+////                            e.printStackTrace();
+////                        }
+////                    }
+////                }
+////            };
+////
+////            if(bluetoothsocket != null && bluetoothsocket.isConnected()){
+////                System.out.println("aaaa");
+////                this.out.write((robotNum + ":" + labels.toString() + ":" + data.toString()).getBytes(Charset.forName("UTF-8")));
+////                thread.start();
+////            }else{
+////                pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
+////                SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
+////                SharedPreferences.Editor editor = prefs.edit();
+////                editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
+////                editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
+////                editor.apply();
+////            }
+//        }catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return true;
+//    }
 
     public void waitForConformation(final StringBuilder labels, final StringBuilder data){
         Thread thread = new Thread(){
@@ -649,15 +642,6 @@ public class MainActivity extends AppCompatActivity{
 //        viewPager.setOffscreenPageLimit(3);
 //        viewPager.getAdapter().notifyDataSetChanged();
 
-        ((RadioGroup) pagerAdapter.robotPage.getView().findViewById(R.id.autoBaselineGroup)).clearCheck();
-//        ((RadioGroup) pagerAdapter.robotPage.getView().findViewById(R.id.autoGearGroup)).clearCheck();
-        ((RadioGroup) pagerAdapter.photoPage.getView().findViewById(R.id.endgameClimbGroup)).clearCheck();
-        ((EditText) pagerAdapter.photoPage.getView().findViewById(R.id.endgameComments)).setText("");
-        ((CheckBox) pagerAdapter.photoPage.getView().findViewById(R.id.defense)).setChecked(false);
-        ((CheckBox) pagerAdapter.photoPage.getView().findViewById(R.id.died)).setChecked(false);
-        ((RatingBar) pagerAdapter.strategyPage.getView().findViewById(R.id.driveRating)).setRating(0);
-//        ((SeekBar) pagerAdapter.photoPage.getView().findViewById(R.id.rotors)).setProgress(0);
-        ((Spinner) pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).setSelection(1);
 
     }
 

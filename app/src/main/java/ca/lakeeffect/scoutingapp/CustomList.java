@@ -30,8 +30,8 @@ public class CustomList extends ArrayAdapter<String> {
         View rowView= inflater.inflate(layout, null, true);
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
-        txtTitle.setText(titles[position]);
+//        TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
+//        txtTitle.setText(titles[position]);
 
         imageView.setImageBitmap(images[position]);
         return rowView;
