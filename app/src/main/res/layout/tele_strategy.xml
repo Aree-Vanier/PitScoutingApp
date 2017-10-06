@@ -280,22 +280,16 @@
                 android:inputType="numberDecimal"
                 android:id="@+id/hopperEmptyTime"/>
         </TableRow>
-        <TableRow
+
+    </TableLayout>
+
+    <EditText
+        android:hint="Shooting Positions"
+        android:gravity="left"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:id="@+id/pos">
+        android:id="@+id/shootingPositions"
+        android:layout_below="@id/teletablelayout"/>
 
-        <EditText
-            android:hint="Shooting Positions"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:inputType="text"
-            android:id="@+id/shootingPositions"/>
-    </TableRow>
-
-
-        </TableLayout>
 
 
 </android.support.percent.PercentRelativeLayout>
