@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 /**
  * Created by Ajay on 9/25/2016.
  */
-public class AutoStrategy extends Fragment {
+public class NotesPage extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -19,9 +19,9 @@ public class AutoStrategy extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState){
 
-        View view = inflator.inflate(R.layout.auto_strategy, container, false);
+        View view = inflator.inflate(R.layout.notes_page, container, false);
 
-        view.setTag("page2");
+        view.setTag("page1");
 
         return view;
     }
