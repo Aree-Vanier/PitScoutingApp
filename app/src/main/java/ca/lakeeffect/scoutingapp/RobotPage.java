@@ -21,7 +21,7 @@ public class RobotPage extends Fragment{
 
         View view = inflator.inflate(R.layout.robot_page, container, false);
 
-        view.setTag("page1");
+        view.setTag("page2");
 
 //        ((TextView) view.findViewById(R.id.autoPeg)).setTextSize(15);
         return view;

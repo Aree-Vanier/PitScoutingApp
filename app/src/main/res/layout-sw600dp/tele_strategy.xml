@@ -1,230 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TableLayout
+    android:layout_height="wrap_content">
+    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/robottablelayout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="match_parent">
 
-        <TableRow
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="25dp"
-            android:weightSum="3">
+            android:id="@+id/teletablelayout"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
-            <TextView
-                android:text="Task"
-                android:layout_width="wrap_content"
+            <TableRow
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/teleHeader0"
-                android:layout_weight="1"
-                android:layout_gravity="center_horizontal"
-                android:textSize="30dp" />
-            <TextView
-                android:text="Success"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/teleHeader1"
-                android:layout_weight="1"
-                android:layout_gravity="center_horizontal"
-                android:textSize="30dp" />
-            <TextView
-                android:text="Missed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/teleHeader2"
-                android:layout_weight="1"
-                android:textSize="30dp" />
+                android:id="@+id/gearHeader">
 
-        </TableRow>
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Gears"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="25dp"
+                    android:textStyle="bold"/>
 
-        <TableRow
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:id="@+id/expected">
+
+                <TextView
+                    android:text="Number Expected:"
+                    android:layout_weight="1"
+                    android:textSize="17dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:hint="#"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/expectedGears"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:id="@+id/gearLoading">
+
+                <TextView
+                    android:text="Loading:"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="17dp"
+                    android:id="@+id/textView3"
+                    android:layout_gravity="center_vertical"/>
+
+                <TableLayout
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TableRow
+                        android:weightSum="2"
+                        android:gravity="center">
+                        <CheckBox
+                            android:layout_weight="1"
+                            android:id="@+id/humanGearLoading"
+                            android:text="Human"
+                            android:gravity="left|center_vertical"/>
+                        <CheckBox
+                            android:layout_weight="1"
+                            android:id="@+id/floorGearLoading"
+                            android:text = "Floor"
+                            android:gravity="left|center_vertical"/>
+                    </TableRow>
+                </TableLayout>
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:id="@+id/assist">
+
+                <TextView
+                    android:text="Pilot assisted scoring:"
+                    android:layout_weight="1"
+                    android:textSize="17dp"
+                    android:id="@+id/textView4"
+                    android:layout_gravity="center_vertical"/>
+
+                <CheckBox
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:id="@+id/assistedScoring"/>
+
+            </TableRow>
+
+            <TableRow
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fuelHeader">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Fuel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="25dp"
+                    android:textStyle="bold"/>
+
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:id="@+id/fuelLoading">
+
+                <TextView
+                    android:text="Loading:"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="17dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <TableLayout
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TableRow
+                        android:weightSum="2"
+                        android:gravity="center">
+                        <CheckBox
+                            android:layout_weight="1"
+                            android:id="@+id/humanFuelLoading"
+                            android:text="Human"
+                            android:gravity="left|center_vertical"/>
+                        <CheckBox
+                            android:layout_weight="1"
+                            android:id="@+id/floorFuelLoading"
+                            android:text = "Floor"
+                            android:gravity="left|center_vertical"/>
+                    </TableRow>
+                    <TableRow
+                        android:weightSum="1"
+                        android:gravity="center">
+                        <CheckBox
+                            android:layout_weight="1"
+                            android:id="@+id/hopperFuelLoading"
+                            android:text="Hopper"
+                            android:layout_gravity="center"
+                            android:gravity="left|center_vertical"/>
+                    </TableRow>
+                </TableLayout>
+
+
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:id="@+id/boiler">
+
+                <TextView
+                    android:text="Boiler:"
+                    android:layout_weight="1"
+                    android:textSize="17dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <TableLayout
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TableRow
+                        android:weightSum="2"
+                        android:gravity="center">
+                        <CheckBox
+                            android:layout_weight="1"
+                            android:id="@+id/highBoiler"
+                            android:text="High"
+                            android:gravity="left|center_vertical"/>
+                        <CheckBox
+                            android:layout_weight="1"
+                            android:id="@+id/lowBoiler"
+                            android:text = "Low"
+                            android:gravity="left|center_vertical"/>
+                    </TableRow>
+                </TableLayout>
+
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:id="@+id/expectedC">
+
+                <TextView
+                    android:text="Cycles Expected:"
+                    android:layout_weight="1"
+                    android:textSize="17dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:hint="#"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/fuelCyclesExpected"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:id="@+id/capacity">
+
+                <TextView
+                    android:text="Fuel Capacity:"
+                    android:layout_weight="1"
+                    android:textSize="17dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:hint="#"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="number"
+                    android:id="@+id/fuelCapacity"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:id="@+id/accuracy">
+
+                <TextView
+                    android:text="Accuracy %:"
+                    android:layout_weight="1"
+                    android:textSize="17dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:hint="#"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="number"
+                    android:id="@+id/fuelAccuracy"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:id="@+id/time">
+                <TextView
+                    android:text="Hopper Empty Time:"
+                    android:layout_weight="1"
+                    android:textSize="15dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:hint="#"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/hopperEmptyTime"/>
+            </TableRow>
+
+        </TableLayout>
+
+        <EditText
+            android:hint="Shooting Positions"
+            android:gravity="left"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="25dp"
-            android:weightSum="3">
-
-            <TextView
-                android:text="Low Goal: "
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/teleTask0"
-                android:layout_weight="1"
-                android:textSize="25dp" />
-
-            <ca.lakeeffect.scoutingapp.HigherCounter
-                android:layout_gravity="center_horizontal"
-                android:text=""
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/teleLowComplete"
-                android:layout_weight="1"
-                app:BigButtonValue="9"/>
-
-            <ca.lakeeffect.scoutingapp.HigherCounter
-                android:layout_gravity="center_horizontal"
-                android:text=""
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:id="@+id/teleLowFailed"
-                app:BigButtonValue="9"/>
-        </TableRow>
-
-        <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="25dp"
-        android:weightSum="3">
-
-            <TextView
-                android:text="High Goal: "
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/teleTask2"
-                android:layout_weight="1"
-                android:textSize="25dp"
-                />
-
-            <ca.lakeeffect.scoutingapp.HigherCounter
-                android:layout_gravity="center_horizontal"
-                android:text=""
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/teleHighComplete"
-                android:layout_weight="1"
-                app:BigButtonValue="3"/>
-
-            <ca.lakeeffect.scoutingapp.HigherCounter
-                android:layout_gravity="center_horizontal"
-                android:text=""
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:id="@+id/teleHighFailed"
-                app:BigButtonValue="3"/>
-    </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="25dp"
-            android:weightSum="3">
-
-            <TextView
-                android:text="Gears:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/teleTask1"
-                android:layout_weight="1"
-                android:textSize="25dp" />
-
-            <ca.lakeeffect.scoutingapp.Counter
-                android:layout_gravity="center_horizontal"
-                android:text=""
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/teleGearComplete"
-                android:layout_weight="1" />
-
-            <ca.lakeeffect.scoutingapp.Counter
-                android:layout_gravity="center_horizontal"
-                android:text=""
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:id="@+id/teleGearFailed" />
-        </TableRow>
+            android:id="@+id/shootingPositions"
+            android:layout_below="@id/teletablelayout"/>
 
 
-        <TableRow android:weightSum="2">
-            <TextView
-                android:text="Gears Dropped:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/teleTask3"
-                android:layout_weight="1"
-                android:textSize="25dp" />
 
-            <ca.lakeeffect.scoutingapp.Counter
-                android:layout_gravity="center_horizontal"
-                android:text=""
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:id="@+id/teleGearDropped" />
-        </TableRow>
-
-
-    </TableLayout>
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/driveRating"
-        android:numStars="4"
-        android:stepSize="1"
-        android:isIndicator="false"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView2"/>
-
-    <TextView
-        android:text="Drive Ability"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/robottablelayout"
-        android:layout_centerHorizontal="true"
-        android:textSize="25dp"
-        android:layout_marginTop="15dp"/>
-
-</android.support.percent.PercentRelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
+</ScrollView>

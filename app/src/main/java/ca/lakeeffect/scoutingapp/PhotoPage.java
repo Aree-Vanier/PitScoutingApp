@@ -75,13 +75,13 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
     }
 
     private void dispatchTakePictureIntent() {
-        File dir = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/");
+        File dir = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/Images/" + robotNum);
 
         if (!dir.exists()) {
-            File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/");
+            File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/Images/" + robotNum);
             wallpaperDirectory.mkdirs();
         }
-        Uri path = Uri.fromFile(new File(new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/"), images.size() + ".png"));
+        Uri path = Uri.fromFile(new File(new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/Images/" + robotNum), images.size() + ".png"));
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, path);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -101,7 +101,7 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
         System.out.println("Result");
         if (requestCode == 1 && resultCode == RESULT_OK) {
             System.out.println("Got Image");
-            Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/"+images.size()+".png");
+            Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/Images/" + robotNum+"/"+images.size()+".png");
             updateList(image);
         }
     }
@@ -123,7 +123,7 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
 
     //For initial load
     private void loadList() {
-        File dir = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/");
+        File dir = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/Images/" + robotNum);
         File[] files = dir.listFiles();
         if(files != null) {
             for (int i = 0; i < images.size(); i++) {
@@ -133,7 +133,7 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
             for (int i = 0; i < files.length; i++) {
                 String name = files[i].getName();
                 System.out.println(name);
-                Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/" + robotNum + "/images/" + name, opt);
+                Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/Images/" + robotNum + name, opt);
                 float h = image.getHeight();
                 float w = image.getWidth();
                 images.add(Bitmap.createScaledBitmap(image, (int) (target * (w / h)), (int) target, true));

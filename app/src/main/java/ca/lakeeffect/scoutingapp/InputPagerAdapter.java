@@ -14,14 +14,14 @@ public class InputPagerAdapter extends FragmentStatePagerAdapter {
     final int PAGENUM = 4;
 
     public RobotPage robotPage;
-    public AutoStrategy autoStrategy;
+    public NotesPage notesPage;
     public PhotoPage photoPage;
     public TeleStrategy teleStrategy;
 
     public InputPagerAdapter(FragmentManager fm) {
         super(fm);
         robotPage = new RobotPage();
-        autoStrategy = new AutoStrategy();
+        notesPage = new NotesPage();
         photoPage = new PhotoPage();
         teleStrategy = new TeleStrategy();
     }
@@ -29,11 +29,11 @@ public class InputPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch(position){
             case 0:
+                notesPage = new NotesPage();
+                return notesPage;
+            case 1:
                 robotPage = new RobotPage();
                 return robotPage;
-            case 1:
-                autoStrategy = new AutoStrategy();
-                return autoStrategy;
             case 2:
                 teleStrategy = new TeleStrategy();
                 return teleStrategy;
@@ -53,9 +53,9 @@ public class InputPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch(position){
             case 0:
-                return "Robot ";
+                return "Notes";
             case 1:
-                return "Auto Strategy";
+                return "Robot";
             case 2:
                 return "Teleop Strategy";
             case 3:

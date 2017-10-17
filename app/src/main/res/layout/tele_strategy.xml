@@ -266,7 +266,7 @@
             android:layout_height="wrap_content"
             android:weightSum="2"
             android:id="@+id/time">
-
+s
             <TextView
                 android:text="Hopper Empty Time:"
                 android:layout_weight="1"

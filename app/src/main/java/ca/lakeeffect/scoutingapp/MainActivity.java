@@ -10,22 +10,27 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.ViewGroupCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -52,8 +57,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.Inflater;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     //TODO: Redo text sizes
 
@@ -63,13 +69,12 @@ public class MainActivity extends AppCompatActivity{
     List<Button> buttons = new ArrayList<>();
     List<SeekBar> seekbars = new ArrayList<>();
 
-//    Button submit;
+    Button save;
 
     TextView timer;
     TextView robotNumText; //robotnum and round
 
     int robotNum = 2708;
-    int round = 0;
     String scoutName = "Woodie Flowers";
 
     static long start;
@@ -77,7 +82,7 @@ public class MainActivity extends AppCompatActivity{
     InputPagerAdapter pagerAdapter;
     ViewPager viewPager;
 
-//    BluetoothSocket bluetoothsocket;
+    //    BluetoothSocket bluetoothsocket;
     ArrayList<String> pendingmessages = new ArrayList<>();
     boolean connected;
 
@@ -90,7 +95,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs1 = getSharedPreferences("theme", MODE_PRIVATE);
-        switch(prefs1.getInt("theme", 0)){
+        switch (prefs1.getInt("theme", 0)) {
             case 0:
                 setTheme(R.style.AppTheme);
                 break;
@@ -106,33 +111,33 @@ public class MainActivity extends AppCompatActivity{
         //add all buttons and counters etc.
 
         SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
-        for(int i=0;i<prefs.getInt("messageAmount",0);i++){
-            if(prefs.getString("message"+i,null) == null){
+        for (int i = 0; i < prefs.getInt("messageAmount", 0); i++) {
+            if (prefs.getString("message" + i, null) == null) {
                 SharedPreferences.Editor editor = prefs.edit();
-                for(int s=i;s<prefs.getInt("messageAmount",0)-1;s++) {
-                    editor.putString("message" + s, prefs.getString("message" + (s+1), ""));
+                for (int s = i; s < prefs.getInt("messageAmount", 0) - 1; s++) {
+                    editor.putString("message" + s, prefs.getString("message" + (s + 1), ""));
                 }
-                editor.putInt("messageAmount", prefs.getInt("messageAmount",0)-1);
+                editor.putInt("messageAmount", prefs.getInt("messageAmount", 0) - 1);
                 editor.commit();
-            }else {
+            } else {
                 pendingmessages.add(prefs.getString("message" + i, ""));
             }
         }
 
         moreOptions = (Button) findViewById(R.id.moreOptions);
-        moreOptions.setOnClickListener(new View.OnClickListener() {
+        moreOptions.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 PopupMenu menu = new PopupMenu(MainActivity.this, v, Gravity.CENTER_HORIZONTAL);
                 menu.getMenuInflater().inflate(R.menu.more_options, menu.getMenu());
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId() == R.id.reset){
+                        if (item.getItemId() == R.id.reset) {
                             new AlertDialog.Builder(MainActivity.this)
                                     .setTitle("Confirm")
                                     .setMessage("Continuing will reset current data.")
-                                    .setPositiveButton("Continue", new DialogInterface.OnClickListener(){
-                                        public void onClick(DialogInterface dialog, int which){
+                                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
                                             reset();
 
                                         }
@@ -141,16 +146,16 @@ public class MainActivity extends AppCompatActivity{
                                     .create()
                                     .show();
                         }
-                        if(item.getItemId() == R.id.changeNum){
+                        if (item.getItemId() == R.id.changeNum) {
                             alert();
                         }
 
-                        if(item.getItemId() == R.id.changeTheme) {
+                        if (item.getItemId() == R.id.changeTheme) {
                             new AlertDialog.Builder(MainActivity.this)
                                     .setTitle("Confirm")
                                     .setMessage("Continuing will reset current data.")
-                                    .setPositiveButton("Continue", new DialogInterface.OnClickListener(){
-                                        public void onClick(DialogInterface dialog, int which){
+                                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
                                             Intent intent = new Intent(MainActivity.this, StartActivity.class);
                                             startActivity(intent);
                                         }
@@ -175,8 +180,6 @@ public class MainActivity extends AppCompatActivity{
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(3);
 
-        pagerAdapter.photoPage.robotNum = robotNum;
-        System.out.println(pagerAdapter.photoPage.robotNum + "\t" + robotNum);
 
 //        NumberPicker np = (NumberPicker) findViewm counters
 //        np.setWrapSelectorWheel(false);ById(R.id.numberPicker);
@@ -194,7 +197,7 @@ public class MainActivity extends AppCompatActivity{
 //        timer = (TextView) findViewById(R.id.timer);
         robotNumText = (TextView) findViewById(R.id.robotNum);
 
-        robotNumText.setText("Round: " + round + "  Robot: " + robotNum);
+        robotNumText.setText("Robot: " + robotNum);
 
 
 //        submit.setOnClickListener(this);
@@ -212,20 +215,20 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-    public void registerBluetoothListeners(){
+    public void registerBluetoothListeners() {
         BroadcastReceiver bState = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.d("SDAsadsadsadsad","iouweroiurweoiurewoirweuoiweru");
+                Log.d("SDAsadsadsadsad", "iouweroiurweoiurewoirweuoiweru");
                 String action = intent.getAction();
-                switch (action){
+                switch (action) {
                     case BluetoothDevice.ACTION_ACL_DISCONNECTED:
                         connected = false;
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 ((TextView) ((RelativeLayout) findViewById(R.id.statusLayout)).findViewById(R.id.status)).setText("DISCONNECTED");
-                                ((TextView) ((RelativeLayout) findViewById(R.id.statusLayout)).findViewById(R.id.status)).setTextColor(Color.argb(255,255,0,0));
+                                ((TextView) ((RelativeLayout) findViewById(R.id.statusLayout)).findViewById(R.id.status)).setTextColor(Color.argb(255, 255, 0, 0));
                             }
                         });
 //                        if(bluetoothConnectionThread == null) setupBluetoothConnections();
@@ -269,219 +272,68 @@ public class MainActivity extends AppCompatActivity{
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-        registerReceiver(bState,filter);
+        registerReceiver(bState, filter);
     }
 
-//    public String[] getData(){
-//        if(((RatingBar) pagerAdapter.autoStrategy.getView().findViewById(R.id.driveRating)).getRating() <= 0){
-//            runOnUiThread(new Thread(){
-//                public void run(){
-//                    new Toast(MainActivity.this).makeText(MainActivity.this, "You didn't rate the drive ability!", Toast.LENGTH_LONG).show();
-//                }
-//            });
-//            return null;
-//        }
-//        if(((RadioGroup) pagerAdapter.robotPage.getView().findViewById(R.id.autoBaselineGroup)).getCheckedRadioButtonId() <= 0){
-//            runOnUiThread(new Thread(){
-//                public void run(){
-//                    new Toast(MainActivity.this).makeText(MainActivity.this, "You forgot to specify if it crossed the baseline! Go back to the teleop page!", Toast.LENGTH_LONG).show();
-//                }
-//            });
-//            return null;
-//        }
-//
-//        final StringBuilder data = new StringBuilder();
-//
-//        //The Labels
-//        final StringBuilder labels = new StringBuilder();
-//        labels.append("Date and Time Of Match,Round,");
-//
-//        DateFormat dateFormat = new SimpleDateFormat("dd HH:mm:ss");
-//        Date date = new Date();
-//
-//        data.append("\n" + dateFormat.format(date));
-//
-//        data.append("," + round);
-//
-//        TableLayout layout = (TableLayout) pagerAdapter.robotPage.getView().findViewById(R.id.autopagetablelayout);
-//        //            PercentRelativeLayout layout = (PercentRelativeLayout) findViewById(R.layout.robot_page);
-////            data.append("auto");
-//
-//        StringBuilder extradata = new StringBuilder();
-//        StringBuilder extralabels = new StringBuilder();
-//
-//        String[] autodata = new String[6];
-//        String[] autolabels = new String[6];
-//        int recordedData = 0;
-//        for(int i=0;i<layout.getChildCount();i++){
-//            for(int s = 0; s<((TableRow) layout.getChildAt(i)).getChildCount(); s++) {
-//                if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof RadioGroup) {
-//                    int pressed = -1;
-//                    for(int r=0;r<((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getChildCount();r++){
-//                        if(((RadioButton) ((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getChildAt(r)).isChecked()){
-//                            pressed = 1-r;
-//                        }
-//                    }
-//                    autodata[4] = "," + pressed;
-//                    autolabels[4] = getResources().getResourceEntryName(((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",";
-////                        data.append("," + pressed);
-////                        labels.append(getResources().getResourceEntryName(((RadioGroup) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",");
-//                    recordedData++;
-//                }
-//                else if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof Counter) {
-//                    String currentdata = "," + String.valueOf(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).count);
-//                    String currentlabel = getResources().getResourceEntryName(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",";
-//                    switch(recordedData) {
-//                        case 1:
-//                            autodata[2] = currentdata;
-//                            autolabels[2] = currentlabel;
-//                            break;
-//                        case 2:
-//                            autodata[3] = currentdata;
-//                            autolabels[3] = currentlabel;
-//                            break;
-//                        case 3:
-//                            autodata[0] = currentdata;
-//                            autolabels[0] = currentlabel;
-//                            break;
-//                        case 4:
-//                            autodata[1] = currentdata;
-//                            autolabels[1] = currentlabel;
-//                            break;
-//
-//                    }
-//                    recordedData++;
-////                        data.append();
-////                        labels.append();
-//
-//                }
-//            }
-//        }
-//        //AUTO GEAR
-////            labels.append("autoGear,");
-////            data.append(","+(((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1));
-//        autolabels[5] = "autoGear,";
-//        boolean autoGearSimpleData = (((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1) >= 1;
-//        autodata[5] = "," + (autoGearSimpleData ? 1 : 0);
-//
-//        extralabels.append("autoGearPlacement,");
-//        extradata.append(","+(((Spinner)pagerAdapter.robotPage.getView().findViewById(R.id.autoPeg)).getSelectedItemPosition()-1));
-//
-//        for(int i=0;i<autodata.length;i++){
-//            data.append(autodata[i]);
-//        }
-//        for(int i=0;i<autolabels.length;i++){
-//            labels.append(autolabels[i]);
-//        }
-//
-//        DisplayMetrics m = getResources().getDisplayMetrics();
-//        PercentRelativeLayout v = null;
-//        if(m.widthPixels/m.density < 600) v = ((PercentRelativeLayout) ((ScrollView) pagerAdapter.autoStrategy.getView()).getChildAt(0));
-//        else v = ((PercentRelativeLayout) pagerAdapter.autoStrategy.getView());
-//
-//        layout = (TableLayout) v.findViewById(R.id.teleoptablelayout);
-////            data.append("\nteleop");
-//        String[] teledata = new String[6];
-//        String[] telelabels = new String[6];
-//        recordedData = 0;
-//        for(int i=0;i<layout.getChildCount();i++) {
-//            for (int s = 0; s < ((TableRow) layout.getChildAt(i)).getChildCount(); s++) {
-//                if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof Counter) {
-//                    String currentdata = ("," + String.valueOf(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).count));
-//                    String currentlabel = (getResources().getResourceEntryName(((Counter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",");
-//                    if(recordedData == 6){
-//                        extradata.append(currentdata);
-//                        extralabels.append(currentlabel);
-//                    }else {
-//                        teledata[recordedData] = (currentdata);
-//                        telelabels[recordedData] = (currentlabel);
-//                    }
-//                    recordedData++;
-//                }
-//                if (((TableRow) layout.getChildAt(i)).getChildAt(s) instanceof HigherCounter) {
-//                    String currentdata = "," + String.valueOf(((HigherCounter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).count);
-//                    String currentlabel = getResources().getResourceEntryName(((HigherCounter) ((TableRow) layout.getChildAt(i)).getChildAt(s)).getId()) + ",";
-//                    switch(recordedData) {
-//                        case 0:
-//                            teledata[2] = currentdata;
-//                            telelabels[2] = currentlabel;
-//                            break;
-//                        case 1:
-//                            teledata[3] = currentdata;
-//                            telelabels[3] = currentlabel;
-//                            break;
-//                        case 2:
-//                            teledata[0] = currentdata;
-//                            telelabels[0] = currentlabel;
-//                            break;
-//                        case 3:
-//                            teledata[1] = currentdata;
-//                            telelabels[1] = currentlabel;
-//                            break;
-//
-//                    }
-//                    recordedData++;
-//                }
-//            }
-//        }
-//        extradata.append(","+((RatingBar) pagerAdapter.autoStrategy.getView().findViewById(R.id.driveRating)).getRating());
-//        extralabels.append("Drive Rating,");
-//
-//        for(int i=0;i<teledata.length;i++){
-//            data.append(teledata[i]);
-//        }
-//        for(int i=0;i<autolabels.length;i++){
-//            labels.append(telelabels[i]);
-//        }
-//
-//        v = ((PercentRelativeLayout) ((ScrollView) pagerAdapter.photoPage.getView()).getChildAt(0));
-//        for(int i=0; i<v.getChildCount(); i++){
-//            if(v.getChildAt(i) instanceof RadioGroup){
-//                int pressed = -1;
-//                for(int r=0;r<((RadioGroup) v.getChildAt(i)).getChildCount();r++){
-//                    if(((RadioButton) ((RadioGroup) v.getChildAt(i)).getChildAt(r)).isChecked()){
-//                        pressed = r;
-//                    }
-//                }
-//                data.append("," + (pressed == 0 ? 1: 0));
-//                labels.append("Did Climb,");
-//                extradata.append("," + pressed);
-//                extralabels.append("ClimbExtraData (Includes no attempt),");
-//            }
-//            if(v.getChildAt(i) instanceof EditText){
-//                extradata.append(",\"" + ((EditText) v.getChildAt(i)).getText().toString().replace("\"", "\'").replace(":", ";").replace("\n", "\t") + "\"");
-//                extralabels.append(getResources().getResourceEntryName(((EditText) v.getChildAt(i)).getId()) + ",");
-//            }
-//            if(v.getChildAt(i) instanceof Counter){
-//                extradata.append("," + ((Counter) v.getChildAt(i)).count);
-//                extralabels.append(getResources().getResourceEntryName(((Counter) v.getChildAt(i)).getId()) + ",");
-//            }
-//
-//            if(v.getChildAt(i) instanceof CheckBox){
-//                String currentlabel = getResources().getResourceEntryName(((CheckBox) v.getChildAt(i)).getId()) + ",";
-//                String currentdata = "," + (((CheckBox) v.getChildAt(i)).isChecked() ? 1 : 0);
-//                if((currentlabel).equals("died,")){
-//                    labels.append(currentlabel);
-//                    data.append(currentdata);
-//                }else {
-//                    extralabels.append(currentlabel);
-//                    extradata.append(currentdata);
-//                }
-//            }
-//        }
-//
-//        //add extra data and labels
-//        labels.append(extralabels);
-//        data.append(extradata);
-//
-//        labels.append("Scout,");
-//        data.append(","+scoutName);
-//
-//        data.append(",end");//make sure full message has been sent
-//        labels.append("placeholder finish");
-//
-//        return new String[]{data.toString(), labels.toString()};
-//    }
+    final StringBuilder data = new StringBuilder();
+    final StringBuilder labels = new StringBuilder();
+
+    public String[] getData() {
+
+
+
+
+        //General Info
+        data.append(robotNum + ",");
+        labels.append("Robot,");
+
+        labels.append("Date and Time Of Match,");
+        DateFormat dateFormat = new SimpleDateFormat("dd HH:mm:ss");
+        Date date = new Date();
+        data.append(dateFormat.format(date) + ",");
+
+
+        PercentRelativeLayout layout;
+
+        //Notes page
+        layout = (PercentRelativeLayout) pagerAdapter.notesPage.getView().findViewById(R.id.notesLayout);
+
+        labels.append("Auto Notes,");
+        data.append(((EditText) layout.findViewById(R.id.autoNotes)).getText().toString().replace(',', '.') + ",");
+
+        labels.append("General Notes,");
+        data.append(((EditText) layout.findViewById(R.id.generalNotes)).getText().toString().replace(',', '.') + ",");
+
+        //Robot page
+        layout = (PercentRelativeLayout) pagerAdapter.notesPage.getView().findViewById(R.id.notesLayout);
+
+        enterLayout(layout);
+
+
+
+        System.out.println(data.toString());
+        String[] out = {labels.toString(), data.toString()};
+        return out;
+    }
+
+    void enterLayout(ViewGroup top) {
+        for (int i = 0; i < top.getChildCount(); i++) {
+            View v = top.getChildAt(i);
+            if (v instanceof EditText) {
+                data.append(((EditText) v).getText().toString().replace(',', '.') + ",");
+                labels.append(getResources().getResourceEntryName(v.getId()) + ",");
+            }
+            if (v instanceof CheckBox) {
+                data.append(((CheckBox) v).isChecked() + ",");
+                labels.append(getResources().getResourceEntryName(v.getId()) + ",");
+            }
+            if(v instanceof TableLayout || v instanceof TableRow){
+                enterLayout((ViewGroup) v);
+            }
+        }
+    }
+
+
 //
 //    public boolean saveData(){
 //        File sdCard = Environment.getExternalStorageDirectory();
@@ -657,34 +509,21 @@ public class MainActivity extends AppCompatActivity{
              public void onShow(final DialogInterface dialog) {
                  SharedPreferences prefs = getSharedPreferences("scoutName", MODE_PRIVATE);
                  ((EditText) ((AlertDialog) dialog).findViewById(R.id.editText3)).setText(prefs.getString("scoutName", ""));
-                 ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                 ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new OnClickListener() {
                      @Override
                      public void onClick(View v) {
                          LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                          LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog, null);
                          EditText robotNumin = (EditText) ((AlertDialog) dialog).findViewById(R.id.editText);
-                         EditText roundin = (EditText) ((AlertDialog) dialog).findViewById(R.id.editText2);
                          EditText scoutNamein = (EditText) ((AlertDialog) dialog).findViewById(R.id.editText3);
                          try {
                              robotNum = Integer.parseInt(robotNumin.getText().toString());
-                             round = Integer.parseInt(roundin.getText().toString());
                              scoutName = scoutNamein.getText().toString();
 
                              SharedPreferences prefs = getSharedPreferences("scoutName", MODE_PRIVATE);
                              SharedPreferences.Editor editor = prefs.edit();
                              editor.putString("scoutName", scoutName);
                              editor.apply();
-
-                             if(round > 99){
-                                 runOnUiThread(new Runnable() {
-                                     @Override
-                                     public void run() {
-                                         Toast.makeText(MainActivity.this, "Invalid Match Number",
-                                                 Toast.LENGTH_LONG).show();
-                                     }
-                                 });
-                                 return;
-                             }
 
                              if(scoutName.equals("")){
                                  runOnUiThread(new Runnable() {
@@ -708,7 +547,9 @@ public class MainActivity extends AppCompatActivity{
                              return;
                          }
                          robotNumText = (TextView) findViewById(R.id.robotNum);
-                         robotNumText.setText("Robot: " + robotNum + " " + "Round: " + round);
+                         robotNumText.setText("Robot: " + robotNum);
+                         pagerAdapter.photoPage.robotNum = robotNum;
+                         System.out.println(pagerAdapter.photoPage.robotNum + "\t" + robotNum);
                          dialog.dismiss();
                      }
                  });
