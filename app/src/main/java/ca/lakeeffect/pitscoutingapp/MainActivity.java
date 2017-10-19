@@ -44,6 +44,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -344,17 +345,71 @@ public class MainActivity extends AppCompatActivity {
                 file.createNewFile();
                 newFile = true;
             }
+            Boolean newEntry = true;
+            String linesOut = "";
+            if(!newFile) {
+                Scanner scanner;
 
-            FileOutputStream f = new FileOutputStream(file, true);
+                try {
+                    scanner = new Scanner(file);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    return false;
+                }
 
-            OutputStreamWriter out = new OutputStreamWriter(f);
+                int lineIndex = 0;
+                int count = 0;
+                ArrayList<String> lines = new ArrayList<String>();
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    lines.add(line);
+                    if(!line.startsWith("R")){
+                        if (Integer.parseInt(line.split(",")[0].replace(",", "")) == robotNum) {
+                            lineIndex = count;
+                            newEntry = false;
+                        }
+                    }
+                    count++;
+                }
 
-            String[] data = getData();
+                if(!newEntry) {
+                    lines.set(lineIndex, getData()[1]);
+                    StringBuilder b = new StringBuilder();
+                    for (String line:lines) {
+                        b.append(line+"\n");
+                    }
+                    linesOut=b.toString().substring(0, b.length() - 2);
+                }
 
-            if (newFile) out.append(data[0].toString());
-            out.append(data[1].toString());
+                scanner.close();
+            }
+
+
+            FileOutputStream f;
+            OutputStreamWriter out;
+
+            if(newEntry) {
+                f = new FileOutputStream(file, true);
+                out = new OutputStreamWriter(f);
+
+                String[] data = getData();
+
+                if (newFile) out.append(data[0].toString());
+                out.append(data[1].toString());
+            }
+            else{
+                file.delete();
+                file.createNewFile();
+
+                f = new FileOutputStream(file, true);
+                out = new OutputStreamWriter(f);
+
+                out.append(linesOut);
+
+            }
+
+
             out.close();
-
             f.close();
             runOnUiThread(new Runnable() {
                 @Override
@@ -425,9 +480,11 @@ public class MainActivity extends AppCompatActivity {
                 layout = (PercentRelativeLayout) pagerAdapter.teleStrategyPage.getView().findViewById(R.id.teleLayout);
                 setData(layout, data);
 
+                scanner.close();
                 return true;
             }
         }
+        scanner.close();
 
         PercentRelativeLayout layout;
 
