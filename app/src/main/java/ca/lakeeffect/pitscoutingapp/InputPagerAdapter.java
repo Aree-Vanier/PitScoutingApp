@@ -1,4 +1,4 @@
-package ca.lakeeffect.scoutingapp;
+package ca.lakeeffect.pitscoutingapp;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,14 +16,14 @@ public class InputPagerAdapter extends FragmentStatePagerAdapter {
     public RobotPage robotPage;
     public NotesPage notesPage;
     public PhotoPage photoPage;
-    public TeleStrategy teleStrategy;
+    public TeleStrategy teleStrategyPage;
 
     public InputPagerAdapter(FragmentManager fm) {
         super(fm);
         robotPage = new RobotPage();
         notesPage = new NotesPage();
         photoPage = new PhotoPage();
-        teleStrategy = new TeleStrategy();
+        teleStrategyPage = new TeleStrategy();
     }
     @Override
     public Fragment getItem(int position) {
@@ -35,8 +35,8 @@ public class InputPagerAdapter extends FragmentStatePagerAdapter {
                 robotPage = new RobotPage();
                 return robotPage;
             case 2:
-                teleStrategy = new TeleStrategy();
-                return teleStrategy;
+                teleStrategyPage = new TeleStrategy();
+                return teleStrategyPage;
             case 3:
                 photoPage = new PhotoPage();
                 return photoPage;

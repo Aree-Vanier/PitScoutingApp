@@ -1,4 +1,4 @@
-package ca.lakeeffect.scoutingapp;
+package ca.lakeeffect.pitscoutingapp;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -10,20 +10,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.ViewGroupCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
-import android.text.Layout;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,15 +31,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +47,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button save;
 
-    TextView timer;
+    TextView scoutNameText;
     TextView robotNumText; //robotnum and round
 
     int robotNum = 2708;
@@ -275,13 +264,13 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(bState, filter);
     }
 
-    final StringBuilder data = new StringBuilder();
-    final StringBuilder labels = new StringBuilder();
+    StringBuilder data;
+    StringBuilder labels;
 
     public String[] getData() {
 
-
-
+        data = new StringBuilder();
+        labels = new StringBuilder();
 
         //General Info
         data.append(robotNum + ",");
@@ -297,20 +286,20 @@ public class MainActivity extends AppCompatActivity {
 
         //Notes page
         layout = (PercentRelativeLayout) pagerAdapter.notesPage.getView().findViewById(R.id.notesLayout);
-
-        labels.append("Auto Notes,");
-        data.append(((EditText) layout.findViewById(R.id.autoNotes)).getText().toString().replace(',', '.') + ",");
-
-        labels.append("General Notes,");
-        data.append(((EditText) layout.findViewById(R.id.generalNotes)).getText().toString().replace(',', '.') + ",");
-
-        //Robot page
-        layout = (PercentRelativeLayout) pagerAdapter.notesPage.getView().findViewById(R.id.notesLayout);
-
         enterLayout(layout);
 
+        //Robot page
+        layout = (PercentRelativeLayout) pagerAdapter.robotPage.getView().findViewById(R.id.robotLayout);
+        enterLayout(layout);
 
+        //Tele Strategy page
+        layout = (PercentRelativeLayout) pagerAdapter.teleStrategyPage.getView().findViewById(R.id.teleLayout);
+        enterLayout(layout);
 
+        labels.append("Scout,\n");
+        data.append(scoutName+",\n");
+
+        System.out.println(labels.toString());
         System.out.println(data.toString());
         String[] out = {labels.toString(), data.toString()};
         return out;
@@ -319,17 +308,65 @@ public class MainActivity extends AppCompatActivity {
     void enterLayout(ViewGroup top) {
         for (int i = 0; i < top.getChildCount(); i++) {
             View v = top.getChildAt(i);
-            if (v instanceof EditText) {
-                data.append(((EditText) v).getText().toString().replace(',', '.') + ",");
-                labels.append(getResources().getResourceEntryName(v.getId()) + ",");
+            if (v.getId() > 0) {
+                if (v instanceof EditText) {
+                    data.append(((EditText) v).getText().toString().replace("^", "^^").replaceAll(",", "^c").replaceAll("\n", "^n").replaceAll(":", "^;") + ",");
+                    labels.append(getResources().getResourceEntryName(v.getId()) + ",");
+                }
+                if (v instanceof CheckBox) {
+                    data.append(((CheckBox) v).isChecked() + ",");
+                    labels.append(getResources().getResourceEntryName(v.getId()) + ",");
+                }
             }
-            if (v instanceof CheckBox) {
-                data.append(((CheckBox) v).isChecked() + ",");
-                labels.append(getResources().getResourceEntryName(v.getId()) + ",");
-            }
-            if(v instanceof TableLayout || v instanceof TableRow){
+            if (v instanceof ViewGroup) {
                 enterLayout((ViewGroup) v);
             }
+        }
+    }
+
+
+    public boolean saveData() {
+        File sdCard = Environment.getExternalStorageDirectory();
+        File file = new File(sdCard.getPath() + "/#PitScoutingData/data.csv");
+
+        try {
+
+            boolean newFile = false;
+            file.getParentFile().mkdirs();
+            if (!file.exists()) {
+                file.createNewFile();
+                newFile = true;
+            }
+
+            FileOutputStream f = new FileOutputStream(file, true);
+
+            OutputStreamWriter out = new OutputStreamWriter(f);
+
+            String[] data = getData();
+
+            if(newFile) out.append(data[0].toString());
+            out.append(data[1].toString());
+            out.close();
+
+            f.close();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this, "Data Saved Successfully!",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this, "Data NOT Saved!!!",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+            return false;
         }
     }
 
@@ -548,7 +585,10 @@ public class MainActivity extends AppCompatActivity {
                          }
                          robotNumText = (TextView) findViewById(R.id.robotNum);
                          robotNumText.setText("Robot: " + robotNum);
+                         scoutNameText = (TextView) findViewById(R.id.scoutName);
+                         scoutNameText.setText("Scout: "+scoutName);
                          pagerAdapter.photoPage.robotNum = robotNum;
+                         pagerAdapter.photoPage.loadList();
                          System.out.println(pagerAdapter.photoPage.robotNum + "\t" + robotNum);
                          dialog.dismiss();
                      }

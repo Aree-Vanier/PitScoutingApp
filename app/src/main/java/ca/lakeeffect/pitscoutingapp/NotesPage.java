@@ -1,6 +1,5 @@
-package ca.lakeeffect.scoutingapp;
+package ca.lakeeffect.pitscoutingapp;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.Fragment;
@@ -8,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * Created by Ajay on 9/25/2016.
@@ -17,17 +17,17 @@ public class NotesPage extends Fragment implements View.OnClickListener {
     Button save;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflator.inflate(R.layout.notes_page, container, false);
 
         view.setTag("page1");
-        save = (Button)((PercentRelativeLayout) view.findViewById(R.id.notesLayout)).findViewById(R.id.save);
+        save = (Button) ((PercentRelativeLayout) view.findViewById(R.id.notesLayout)).findViewById(R.id.save);
         save.setOnClickListener(this);
 
         return view;
@@ -35,8 +35,11 @@ public class NotesPage extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v==save){
-            ((MainActivity) getActivity()).getData();
+        if (v == save) {
+            final boolean status = ((MainActivity) getActivity()).saveData();
+
         }
     }
+
+
 }

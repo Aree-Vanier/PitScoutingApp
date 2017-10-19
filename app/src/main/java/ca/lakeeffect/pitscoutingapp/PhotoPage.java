@@ -1,4 +1,4 @@
-package ca.lakeeffect.scoutingapp;
+package ca.lakeeffect.pitscoutingapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -59,7 +59,6 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
 
         view.setTag("page4");
 
-        loadList();
 
 
         return view;
@@ -122,7 +121,7 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
     }
 
     //For initial load
-    private void loadList() {
+    public void loadList() {
         File dir = new File(Environment.getExternalStorageDirectory() + "/#PitScoutingData/Images/" + robotNum);
         File[] files = dir.listFiles();
         if(files != null) {
