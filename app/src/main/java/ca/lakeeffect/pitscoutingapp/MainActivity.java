@@ -37,16 +37,21 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -297,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
         enterLayout(layout);
 
         labels.append("Scout,\n");
-        data.append(scoutName+",\n");
+        data.append(scoutName + ",\n");
 
         System.out.println(labels.toString());
         System.out.println(data.toString());
@@ -310,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
             View v = top.getChildAt(i);
             if (v.getId() > 0) {
                 if (v instanceof EditText) {
-                    data.append(((EditText) v).getText().toString().replace("^", "^^").replaceAll(",", "^c").replaceAll("\n", "^n").replaceAll(":", "^;") + ",");
+                    data.append(((EditText) v).getText().toString().replace("|", "||").replace(",", "|c").replace("\n", "|n").replace(":", "|:") + ",");
                     labels.append(getResources().getResourceEntryName(v.getId()) + ",");
                 }
                 if (v instanceof CheckBox) {
@@ -329,6 +334,8 @@ public class MainActivity extends AppCompatActivity {
         File sdCard = Environment.getExternalStorageDirectory();
         File file = new File(sdCard.getPath() + "/#PitScoutingData/data.csv");
 
+
+
         try {
 
             boolean newFile = false;
@@ -344,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
 
             String[] data = getData();
 
-            if(newFile) out.append(data[0].toString());
+            if (newFile) out.append(data[0].toString());
             out.append(data[1].toString());
             out.close();
 
@@ -367,6 +374,114 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             return false;
+        }
+    }
+
+
+    /**
+     * @param robotNum Robot number
+     * @return Success
+     */
+    public boolean loadData(int robotNum) {
+        File sdCard = Environment.getExternalStorageDirectory();
+        File file = new File(sdCard.getPath() + "/#PitScoutingData/data.csv");
+        Scanner scanner;
+        if (file == null) return false;
+
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        ArrayList<String> data;
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            System.out.println(line);
+            if(line.startsWith("R")) continue;
+            if (Integer.parseInt(line.split(",")[0].replace(",", "")) == robotNum) {
+
+
+
+                data = new ArrayList<String>(Arrays.asList(line.split(",")));
+
+                System.out.println(data.size());
+                data.remove(0);
+                data.remove(0);
+
+                PercentRelativeLayout layout;
+
+                //Notes page
+                layout = (PercentRelativeLayout) pagerAdapter.notesPage.getView().findViewById(R.id.notesLayout);
+                setData(layout, data);
+
+                //Robot page
+                layout = (PercentRelativeLayout) pagerAdapter.robotPage.getView().findViewById(R.id.robotLayout);
+                setData(layout, data);
+
+                //Tele Strategy page
+                layout = (PercentRelativeLayout) pagerAdapter.teleStrategyPage.getView().findViewById(R.id.teleLayout);
+                setData(layout, data);
+
+                return true;
+            }
+        }
+
+        PercentRelativeLayout layout;
+
+        //Notes page
+        layout = (PercentRelativeLayout) pagerAdapter.notesPage.getView().findViewById(R.id.notesLayout);
+        clearData(layout);
+
+        //Robot page
+        layout = (PercentRelativeLayout) pagerAdapter.robotPage.getView().findViewById(R.id.robotLayout);
+        clearData(layout);
+
+        //Tele Strategy page
+        layout = (PercentRelativeLayout) pagerAdapter.teleStrategyPage.getView().findViewById(R.id.teleLayout);
+        clearData(layout);
+
+        return true;
+    }
+
+    public void setData(ViewGroup top, ArrayList<String> data) {
+        for (int i = 0; i < top.getChildCount(); i++) {
+            View v = top.getChildAt(i);
+            if (v.getId() > 0) {
+                if (v instanceof EditText) {
+                    String temp = data.get(0);
+                    data.remove(0);
+                    temp = temp.replace("|c", ",").replace("|n", "\n").replace("|:", ":").replace("||", "|");
+                    ((EditText) v).setText(temp);
+                }
+                if (v instanceof CheckBox) {
+                    boolean temp = data.get(0).toLowerCase().equals("true");
+                    data.remove(0);
+                    ((CheckBox) v).setChecked(temp);
+                }
+            }
+            if (v instanceof ViewGroup) {
+                setData((ViewGroup) v, data);
+            }
+        }
+    }
+
+    public void clearData(ViewGroup top) {
+        for (int i = 0; i < top.getChildCount(); i++) {
+            View v = top.getChildAt(i);
+            if (v.getId() > 0) {
+                if (v instanceof EditText) {
+                    ((EditText) v).setText("");
+                }
+                if (v instanceof CheckBox) {
+                    ((CheckBox) v).setChecked(false);
+                }
+            }
+            if (v instanceof ViewGroup) {
+                clearData((ViewGroup) v);
+            }
         }
     }
 
@@ -589,6 +704,7 @@ public class MainActivity extends AppCompatActivity {
                          scoutNameText.setText("Scout: "+scoutName);
                          pagerAdapter.photoPage.robotNum = robotNum;
                          pagerAdapter.photoPage.loadList();
+                         loadData(robotNum);
                          System.out.println(pagerAdapter.photoPage.robotNum + "\t" + robotNum);
                          dialog.dismiss();
                      }

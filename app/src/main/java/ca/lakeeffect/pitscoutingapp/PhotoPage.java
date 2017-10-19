@@ -132,7 +132,11 @@ public class PhotoPage extends Fragment implements View.OnClickListener {
             for (int i = 0; i < files.length; i++) {
                 String name = files[i].getName();
                 System.out.println(name);
-                Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/Images/" + robotNum + name, opt);
+                Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/#PitScoutingData/Images/" + robotNum + "/" + name, opt);
+                if(image == null) {
+                    System.out.println("NULL");
+                    continue;
+                }
                 float h = image.getHeight();
                 float w = image.getWidth();
                 images.add(Bitmap.createScaledBitmap(image, (int) (target * (w / h)), (int) target, true));
