@@ -32,8 +32,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -316,20 +318,56 @@ public class MainActivity extends AppCompatActivity {
             View v = top.getChildAt(i);
             if (v.getId() > 0) {
                 if (v instanceof EditText) {
-                    data.append(((EditText) v).getText().toString().replace("|", "||").replace(",", "|c").replace("\n", "|n").replace(":", "|:") + ",");
-                    labels.append(getResources().getResourceEntryName(v.getId()) + ",");
+                    data.append(((EditText) v).getText().toString().replace("|", "||").replace(",", "|c").replace("\n", "|n").replace("\"", "|q").replace(":", ";") + ",");
+                    labels.append(getName(v) + ",");
                 }
                 if (v instanceof CheckBox) {
                     data.append(((CheckBox) v).isChecked() + ",");
-                    labels.append(getResources().getResourceEntryName(v.getId()) + ",");
+                    labels.append(getName(v) + ",");
+                }
+                if (v instanceof Counter) {
+                    data.append(((Counter) v).count + ",");
+                    labels.append(getName(v) + ",");
+                }
+                if (v instanceof HigherCounter) {
+                    data.append(((HigherCounter) v).count + ",");
+                    labels.append(getName(v) + ",");
+                }
+                if(v instanceof RatingBar){
+                    data.append(((RatingBar) v).getRating() + ",");
+                    labels.append(getName(v) + ",");
+                }
+                if(v instanceof Spinner){
+                    //TODO
+                    //data.append(((Spinner) v). + ",");
+                    labels.append(getName(v) + ",");
                 }
             }
-            if (v instanceof ViewGroup) {
+            if(v instanceof RadioGroup) {
+                data.append(((RadioGroup) v).getCheckedRadioButtonId() + ",");
+                labels.append(getName(v) + ",");
+            }
+            else if (v instanceof ViewGroup) {
                 enterLayout((ViewGroup) v);
             }
         }
     }
 
+    //Caps => spaces then letter
+    //First letter capital
+
+    String getName(View v) {
+        String id = getResources().getResourceEntryName(v.getId());
+        String out = id.substring(0,1).toUpperCase()+id.substring(1);
+        for (int i = 1; i < out.length(); i ++) {
+            if(Character.isUpperCase(out.charAt(i))){
+                System.out.println("TEST");
+                out = out.substring(0,i)+" "+out.substring(i);
+                i++;
+            }
+        }
+        return out;
+    }
 
     public boolean saveData() {
         File sdCard = Environment.getExternalStorageDirectory();
