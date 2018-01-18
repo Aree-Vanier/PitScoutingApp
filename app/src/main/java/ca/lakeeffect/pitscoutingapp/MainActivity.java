@@ -314,8 +314,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void enterLayout(ViewGroup top) {
+        //Iterate over all child layouts
         for (int i = 0; i < top.getChildCount(); i++) {
             View v = top.getChildAt(i);
+            //If the layout has a valid ID
             if (v.getId() > 0) {
                 if (v instanceof EditText) {
                     data.append(((EditText) v).getText().toString().replace("|", "||").replace(",", "|c").replace("\n", "|n").replace("\"", "|q").replace(":", ";") + ",");
@@ -339,14 +341,17 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(v instanceof Spinner){
                     //TODO
-                    //data.append(((Spinner) v). + ",");
+                    data.append(((Spinner) v).getSelectedItem().toString() + ",");
+                    System.out.println(((Spinner) v).getSelectedItem().toString() + ",");
                     labels.append(getName(v) + ",");
                 }
             }
             if(v instanceof RadioGroup) {
-                data.append(((RadioGroup) v).getCheckedRadioButtonId() + ",");
+                //Radio button ID will be result output in data
+                data.append(getName(v.findViewById(((RadioGroup) v).getCheckedRadioButtonId()))+",");
                 labels.append(getName(v) + ",");
             }
+            //If the child is a layout, enter it
             else if (v instanceof ViewGroup) {
                 enterLayout((ViewGroup) v);
             }
@@ -548,7 +553,7 @@ public class MainActivity extends AppCompatActivity {
                 if (v instanceof EditText) {
                     String temp = data.get(0);
                     data.remove(0);
-                    temp = temp.replace("|c", ",").replace("|n", "\n").replace("|:", ":").replace("||", "|");
+                    temp = temp.replace("|c", ",").replace("|n", "\n").replace("|:", ":").replace("|q", "\"");
                     ((EditText) v).setText(temp);
                 }
                 if (v instanceof CheckBox) {
@@ -573,6 +578,15 @@ public class MainActivity extends AppCompatActivity {
                 if (v instanceof CheckBox) {
                     ((CheckBox) v).setChecked(false);
                 }
+                if (v instanceof RadioGroup){
+                    ((RadioGroup) v).clearCheck();
+                }
+                if (v instanceof RatingBar){
+                    ((RatingBar) v).setRating(0);
+                }
+                if (v instanceof Spinner){
+                    ((Spinner) v).setSelection(0);
+                }
             }
             if (v instanceof ViewGroup) {
                 clearData((ViewGroup) v);
@@ -581,135 +595,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//
-//    public boolean saveData(){
-//        File sdCard = Environment.getExternalStorageDirectory();
-////        File dir = new File (sdCard.getPath() + "/ScoutingData/");
-//
-//        File file = new File(sdCard.getPath() + "/#ScoutingData/" + robotNum + ".csv");
-//
-//        try{
-//
-//            boolean newfile = false;
-//            file.getParentFile().mkdirs();
-//            if(!file.exists()) {
-//                file.createNewFile();
-//                newfile = true;
-//            }
-//
-//            FileOutputStream f = new FileOutputStream(file, true);
-//
-//            OutputStreamWriter out = new OutputStreamWriter(f);
-//
-//            String[] data = getData();
-//
-//            if(newfile) out.append(data[1].toString());
-//            out.append(data[0].toString());
-//            out.close();
-//
-//            f.close();
-//
-////            Thread thread = new Thread(){
-////                public void run(){
-////                    while(true) {
-////                        System.out.println("aaaa");
-////                        byte[] bytes = new byte[1000];
-////                        try {
-////                            if(!connected){
-////                                pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
-////                                SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
-////                                SharedPreferences.Editor editor = prefs.edit();
-////                                editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
-////                                editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
-////                                editor.apply();
-////                                return;
-////                            }
-////                            int amount = in.read(bytes);
-////                            if (new String(bytes, Charset.forName("UTF-8")).equals("done")) {
-////                                return;
-////                            }
-////                            if(!connected){
-////                                pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
-////                                SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
-////                                SharedPreferences.Editor editor = prefs.edit();
-////                                editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
-////                                editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
-////                                editor.apply();
-////                                return;
-////                            }
-////                        } catch (IOException e) {
-////                            e.printStackTrace();
-////                        }
-////                    }
-////                }
-////            };
-////
-////            if(bluetoothsocket != null && bluetoothsocket.isConnected()){
-////                System.out.println("aaaa");
-////                this.out.write((robotNum + ":" + labels.toString() + ":" + data.toString()).getBytes(Charset.forName("UTF-8")));
-////                thread.start();
-////            }else{
-////                pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
-////                SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
-////                SharedPreferences.Editor editor = prefs.edit();
-////                editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
-////                editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
-////                editor.apply();
-////            }
-//        }catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return true;
-//    }
-
-    public void waitForConformation(final StringBuilder labels, final StringBuilder data){
-        Thread thread = new Thread(){
-            public void run(){
-                while(true) {
-                    System.out.println("aaaa");
-                    byte[] bytes = new byte[1000];
-                    try {
-                        if(!connected){
-                            pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
-                            SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
-                            editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
-                            editor.apply();
-                            return;
-                        }
-                        int amount = listenerThread.in.read(bytes);
-                        if (new String(bytes, Charset.forName("UTF-8")).equals("done")) {
-                            return;
-                        }
-                        if(!connected){
-                            pendingmessages.add(robotNum + ":" + labels.toString() + ":"  + data.toString());
-                            SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putString("message"+prefs.getInt("messageAmount",0), robotNum + ":" + labels.toString() + ":"  + data.toString());
-                            editor.putInt("messageAmount", prefs.getInt("messageAmount",0)+1);
-                            editor.apply();
-                            return;
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-    }
-
-    public int getLocationInSharedMessages(String message){
-        SharedPreferences prefs = getSharedPreferences("pendingmessages", MODE_PRIVATE);
-        for(int i=0;i<prefs.getInt("messageAmount",0);i++) {
-            if(prefs.getString("message" + i, "").equals(message)){
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    @Override
+  @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {

@@ -92,7 +92,6 @@
                             android:text="Shifting"
                             android:textSize="15dp"/>
                     </TableRow>
-
                 </TableLayout>
 
             </TableRow>
