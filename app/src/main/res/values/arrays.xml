@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="pegs">
-        <item>Failed</item>
-        <item>No Gear</item>
-        <item>Left Peg</item>
-        <item>Center Peg</item>
-        <item>Right Peg</item>
+    <string-array name="mechanisms">
+        <item>Elevator</item>
+        <item>Single-pivot arm</item>
+        <item>Multi-pivot arm</item>
+        <item>Scissor lift</item>
+        <item>Conveyor</item>
+        <item>Other</item>
     </string-array>
 </resources>
