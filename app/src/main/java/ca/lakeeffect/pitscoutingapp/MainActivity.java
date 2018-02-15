@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -560,6 +561,16 @@ public class MainActivity extends AppCompatActivity {
                     boolean temp = data.get(0).toLowerCase().equals("true");
                     data.remove(0);
                     ((CheckBox) v).setChecked(temp);
+                }
+                if(v instanceof Spinner){
+                    Adapter a = ((Spinner) v).getAdapter();
+                    for(int j = 0; j < a.getCount(); j++){
+                        if(a.getItem(j).equals(data.get(0))){
+                            System.out.println(a.getItem(j));
+                            ((Spinner) v).setSelection(j);
+                        }
+                    }
+                    data.remove(0);
                 }
             }
             if (v instanceof ViewGroup) {
