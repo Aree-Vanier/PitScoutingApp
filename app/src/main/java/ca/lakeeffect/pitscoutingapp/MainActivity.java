@@ -59,7 +59,6 @@ import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
-    //TODO: Redo text sizes
 
     List<Counter> counters = new ArrayList<>();
     List<CheckBox> checkboxes = new ArrayList<>();
@@ -213,65 +212,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void registerBluetoothListeners() {
-        BroadcastReceiver bState = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.d("SDAsadsadsadsad", "iouweroiurweoiurewoirweuoiweru");
-                String action = intent.getAction();
-                switch (action) {
-                    case BluetoothDevice.ACTION_ACL_DISCONNECTED:
-                        connected = false;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ((TextView) ((RelativeLayout) findViewById(R.id.statusLayout)).findViewById(R.id.status)).setText("DISCONNECTED");
-                                ((TextView) ((RelativeLayout) findViewById(R.id.statusLayout)).findViewById(R.id.status)).setTextColor(Color.argb(255, 255, 0, 0));
-                            }
-                        });
-//                        if(bluetoothConnectionThread == null) setupBluetoothConnections();
-//                        Thread thread1 = new Thread(bluetoothConnectionThread);
-//                        thread1.start();
-                        break;
-//                    case BluetoothDevice.ACTION_ACL_CONNECTED:
-//                        try {
-//                            out = bluetoothsocket.getOutputStream();
-//                            in = bluetoothsocket.getInputStream();
-//                            runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    ((TextView) findViewById(R.id.status)).setText("CONNECTED");
-//                                    ((TextView) findViewById(R.id.status)).setTextColor(Color.argb(255,0,255,0));
-//                                    Toast.makeText(MainActivity.this, "connected!",
-//                                            Toast.LENGTH_LONG).show();
-//                                }
-//                            });
-//                            while(!pendingmessages.isEmpty()){
-//                                for(String message: pendingmessages){
-//
-//                                    byte[] bytes = new byte[1000000];
-//                                    int amount = in.read(bytes);
-//                                    if(amount>0)  bytes = Arrays.copyOfRange(bytes, 0, amount);//puts data into bytes and cuts bytes
-//                                    else continue;
-//                                    if(new String(bytes, Charset.forName("UTF-8")).equals("done")){
-//                                        pendingmessages.remove(message);
-//                                        break;
-//                                    }
-//                                }//TODO TEST IF THIS WORKS
-//                            }
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        break;
-                }
-            }
-        };
-
-        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
-        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-        registerReceiver(bState, filter);
-    }
 
     StringBuilder data;
     StringBuilder labels;

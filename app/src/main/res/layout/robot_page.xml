@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textAlignment="center"
-                    android:textSize="25dp"
+                    android:textSize="@dimen/text_large"
                     android:textStyle="bold"/>
 
             </TableRow>
@@ -44,14 +44,13 @@
                 <TextView
                     android:text="Type:"
                     android:layout_weight="1"
-                    android:textSize="17dp"/>
+                    android:textSize="@dimen/text_small"/>
 
-                <EditText
+                <EditText android:textSize="@dimen/text_small"
                     android:id="@+id/drivetrainType"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:hint="Type"
-                    android:textSize="15dp" />
+                    android:hint="Type"/>
 
             </TableRow>
 
@@ -66,7 +65,7 @@
                     android:text = "Geared for:"
                     android:paddingRight="10dp"
                     android:layout_gravity="center_vertical"
-                    android:textSize="17dp"/>
+                    android:textSize="@dimen/text_small"/>
 
                 <TableLayout
                     android:layout_gravity="center"
@@ -76,22 +75,22 @@
                         <CheckBox
                             android:id="@+id/drivePower"
                             android:text="Power"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                         <CheckBox
                             android:id="@+id/driveSpeed"
                             android:text="Speed"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                     </TableRow>
                     <TableRow
                         android:gravity="right">
                         <CheckBox
                             android:id="@+id/driveBalance"
                             android:text="Balance"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                         <CheckBox
                             android:id="@+id/driveShifting"
                             android:text="Shifting"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                     </TableRow>
                 </TableLayout>
 
@@ -104,14 +103,14 @@
                 <TextView
                     android:text="Cims:"
                     android:layout_weight="1"
-                    android:textSize="17dp"/>
+                    android:textSize="@dimen/text_small"/>
 
                 <EditText
                     android:id="@+id/drivetrainCims"
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:hint="#"
-                    android:textSize="17dp"
+                    android:textSize="@dimen/text_small"
                     android:inputType="number"/>
 
             </TableRow>
@@ -129,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textAlignment="center"
-                    android:textSize="25dp"
+                    android:textSize="@dimen/text_large"
                     android:textStyle="bold"/>
 
             </TableRow>
@@ -143,7 +142,7 @@
                     android:text = "Type:"
                     android:paddingRight="10dp"
                     android:layout_gravity="center_vertical"
-                    android:textSize="17dp"
+                    android:textSize="@dimen/text_small"
                     android:layout_weight="1"/>
 
                 <Spinner
@@ -163,7 +162,7 @@
                     android:text = "Capable of"
                     android:paddingRight="10dp"
                     android:layout_gravity="center_vertical"
-                    android:textSize="17dp"/>
+                    android:textSize="@dimen/text_small"/>
 
                 <TableLayout
                     android:layout_gravity="center"
@@ -173,22 +172,22 @@
                         <CheckBox
                             android:id="@+id/canSwitch"
                             android:text="Switch"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                         <CheckBox
                             android:id="@+id/canVault"
                             android:text="Vault"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                     </TableRow>
                     <TableRow
                         android:gravity="right">
                         <CheckBox
                             android:id="@+id/canLowScale"
                             android:text="Low Scale"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                         <CheckBox
                             android:id="@+id/canHighScale"
                             android:text="High Scale"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                     </TableRow>
                 </TableLayout>
             </TableRow>
@@ -204,7 +203,7 @@
                     android:text = "Preference 1:"
                     android:paddingRight="10dp"
                     android:layout_gravity="center_vertical"
-                    android:textSize="17dp"
+                    android:textSize="@dimen/text_small"
                     android:layout_weight="1"/>
 
                 <Spinner
@@ -223,7 +222,7 @@
                     android:text = "Preference 2:"
                     android:paddingRight="10dp"
                     android:layout_gravity="center_vertical"
-                    android:textSize="17dp"
+                    android:textSize="@dimen/text_small"
                     android:layout_weight="1"/>
 
                 <Spinner
@@ -242,7 +241,7 @@
                     android:text = "Preference 3:"
                     android:paddingRight="10dp"
                     android:layout_gravity="center_vertical"
-                    android:textSize="17dp"
+                    android:textSize="@dimen/text_small"
                     android:layout_weight="1"/>
 
                 <Spinner

@@ -20,7 +20,8 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/driveHeader">
+                android:id="@+id/driveHeader"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_weight="1"
@@ -29,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textAlignment="center"
-                    android:textSize="25dp"
+                    android:textSize="@dimen/text_large"
                     android:textStyle="bold"/>
 
             </TableRow>
@@ -43,14 +44,13 @@
                 <TextView
                     android:text="Type:"
                     android:layout_weight="1"
-                    android:textSize="17dp"/>
+                    android:textSize="@dimen/text_small"/>
 
-                <EditText
+                <EditText android:textSize="@dimen/text_small"
                     android:id="@+id/drivetrainType"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:hint="Type"
-                    android:textSize="15dp" />
+                    android:hint="Type"/>
 
             </TableRow>
 
@@ -65,7 +65,7 @@
                     android:text = "Geared for:"
                     android:paddingRight="10dp"
                     android:layout_gravity="center_vertical"
-                    android:textSize="17dp"/>
+                    android:textSize="@dimen/text_small"/>
 
                 <TableLayout
                     android:layout_gravity="center"
@@ -75,28 +75,180 @@
                         <CheckBox
                             android:id="@+id/drivePower"
                             android:text="Power"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                         <CheckBox
                             android:id="@+id/driveSpeed"
                             android:text="Speed"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                     </TableRow>
                     <TableRow
                         android:gravity="right">
                         <CheckBox
                             android:id="@+id/driveBalance"
                             android:text="Balance"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                         <CheckBox
                             android:id="@+id/driveShifting"
                             android:text="Shifting"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/text_small"/>
                     </TableRow>
-
                 </TableLayout>
 
             </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
 
+                <TextView
+                    android:text="Cims:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"/>
+
+                <EditText
+                    android:id="@+id/drivetrainCims"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:hint="#"
+                    android:textSize="@dimen/text_small"
+                    android:inputType="number"/>
+
+            </TableRow>
+
+            <TableRow
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/mechanism">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Mechanism"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2">
+
+                <TextView
+                    android:text = "Type:"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_small"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:layout_weight="1"
+                    android:id="@+id/mechanismType">
+
+                </Spinner>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3"
+                android:id="@+id/mechanismCapabilities">
+
+                <TextView
+                    android:text = "Capable of"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_small"/>
+
+                <TableLayout
+                    android:layout_gravity="center"
+                    android:layout_weight="2">
+                    <TableRow
+                        android:gravity="right">
+                        <CheckBox
+                            android:id="@+id/canSwitch"
+                            android:text="Switch"
+                            android:textSize="@dimen/text_small"/>
+                        <CheckBox
+                            android:id="@+id/canVault"
+                            android:text="Vault"
+                            android:textSize="@dimen/text_small"/>
+                    </TableRow>
+                    <TableRow
+                        android:gravity="right">
+                        <CheckBox
+                            android:id="@+id/canLowScale"
+                            android:text="Low Scale"
+                            android:textSize="@dimen/text_small"/>
+                        <CheckBox
+                            android:id="@+id/canHighScale"
+                            android:text="High Scale"
+                            android:textSize="@dimen/text_small"/>
+                    </TableRow>
+                </TableLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp">
+
+                <TextView
+                    android:text = "Preference 1:"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_small"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:layout_weight="1"
+                    android:id="@+id/firstPref">
+                </Spinner>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp">
+
+                <TextView
+                    android:text = "Preference 2:"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_small"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:layout_weight="1"
+                    android:id="@+id/secondPref">
+                </Spinner>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp">
+
+                <TextView
+                    android:text = "Preference 3:"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_small"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:layout_weight="1"
+                    android:id="@+id/thirdPref">
+                </Spinner>
+            </TableRow>
         </TableLayout>
 
     </android.support.percent.PercentRelativeLayout>

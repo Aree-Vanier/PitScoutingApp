@@ -2,324 +2,323 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id = "@+id/teleLayout">
-
-    <TableLayout
+    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/teleTableLayout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:id = "@+id/teleLayout">
 
-        <TableRow
-            android:paddingTop="10dp"
+        <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/gearHeader">
+            android:layout_height="match_parent"
+            android:id="@+id/teleTableLayout"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
-            <TextView
-                android:layout_weight="1"
-                android:text="Scale"
+            <TableRow
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Scale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold"/>
+
+            </TableRow>
+
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="25dp"
-                android:textStyle="bold"/>
+                android:weightSum="2">
 
-        </TableRow>
+                <TextView
+                    android:text="Cycles Expected:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
 
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="#"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/scaleExpected"/>
+            </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
-
-            <TextView
-                android:text="Cycles Expected:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
-
-            <EditText
-                android:hint="#"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="numberDecimal"
-                android:id="@+id/scaleExpected"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
-
-            <TextView
-                android:text="Cycle speed:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
-
-            <EditText
-                android:hint="s"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="numberDecimal"
-                android:id="@+id/scaleSpeed"/>
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
-
-            <TextView
-                android:text="Accuracy %:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
-
-            <EditText
-                android:hint="%"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="number"
-                android:id="@+id/ownScaleAccuracy"/>
-        </TableRow>
-
-
-        <TableRow
-            android:paddingTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/switchCapable">
-
-            <TextView
-                android:layout_weight="1"
-                android:text="Own Switch"
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="25dp"
-                android:textStyle="bold"/>
+                android:weightSum="2">
 
-        </TableRow>
+                <TextView
+                    android:text="Cycle speed:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
-
-            <TextView
-                android:text="Cycles Expected:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
-
-            <EditText
-                android:hint="#"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="numberDecimal"
-                android:id="@+id/expectedOwnSwitch"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
-
-            <TextView
-                android:text="Cycle speed:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
-
-            <EditText
-                android:hint="s"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="numberDecimal"
-                android:id="@+id/ownSwitchSpeed"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
-
-            <TextView
-                android:text="Accuracy %:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
-
-            <EditText
-                android:hint="%"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="number"
-                android:id="@+id/ownSwitchAccuracy"/>
-        </TableRow>
-
-        <TableRow
-            android:paddingTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_weight="1"
-                android:text="Other Switch"
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="s"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/scaleSpeed"/>
+            </TableRow>
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="25dp"
-                android:textStyle="bold"/>
+                android:weightSum="2">
 
-        </TableRow>
+                <TextView
+                    android:text="Accuracy %:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2"
-            android:id="@+id/expectedC">
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="%"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="number"
+                    android:id="@+id/ownScaleAccuracy"/>
+            </TableRow>
 
-            <TextView
-                android:text="Cycles Expected:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
 
-            <EditText
-                android:hint="#"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="numberDecimal"
-                android:id="@+id/expectedOtherSwitch"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
-
-            <TextView
-                android:text="Cycle speed:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
-
-            <EditText
-                android:hint="s"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="numberDecimal"
-                android:id="@+id/otherSwitchSpeed"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
-
-            <TextView
-                android:text="Accuracy %:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
-
-            <EditText
-                android:hint="%"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="number"
-                android:id="@+id/otherSwitchAccuracy"/>
-        </TableRow>
-
-        <TableRow
-            android:paddingTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_weight="1"
-                android:text="Vault"
+            <TableRow
+                android:paddingTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="25dp"
-                android:textStyle="bold"/>
+                android:id="@+id/switchCapable">
 
-        </TableRow>
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Own Switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold"/>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
+            </TableRow>
 
-            <TextView
-                android:text="Cycles Expected:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
 
-            <EditText
-                android:hint="#"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="numberDecimal"
-                android:id="@+id/expectedVault"/>
-        </TableRow>
+                <TextView
+                    android:text="Cycles Expected:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="#"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/expectedOwnSwitch"/>
+            </TableRow>
 
-            <TextView
-                android:text="Cycle speed:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
 
-            <EditText
-                android:hint="s"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="numberDecimal"
-                android:id="@+id/vaultSpeed"/>
-        </TableRow>
+                <TextView
+                    android:text="Cycle speed:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="s"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/ownSwitchSpeed"/>
+            </TableRow>
 
-            <TextView
-                android:text="Accuracy %:"
-                android:layout_weight="1"
-                android:textSize="17dp"
-                android:layout_gravity="center_vertical"/>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
 
-            <EditText
-                android:hint="%"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:inputType="number"
-                android:id="@+id/vaultAccuracy"/>
-        </TableRow>
+                <TextView
+                    android:text="Accuracy %:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
 
-    </TableLayout>
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="%"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="number"
+                    android:id="@+id/ownSwitchAccuracy"/>
+            </TableRow>
+
+            <TableRow
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Other Switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:id="@+id/expectedC">
+
+                <TextView
+                    android:text="Cycles Expected:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="#"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/expectedOtherSwitch"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <TextView
+                    android:text="Cycle speed:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="s"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/otherSwitchSpeed"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <TextView
+                    android:text="Accuracy %:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="%"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="number"
+                    android:id="@+id/otherSwitchAccuracy"/>
+            </TableRow>
+
+            <TableRow
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <TextView
+                    android:text="Cycles Expected:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="#"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/expectedVault"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <TextView
+                    android:text="Cycle speed:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="s"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/vaultSpeed"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <TextView
+                    android:text="Accuracy %:"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_small"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText android:textSize="@dimen/text_small"
+                    android:hint="%"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:inputType="number"
+                    android:id="@+id/vaultAccuracy"/>
+            </TableRow>
+
+        </TableLayout>
 
 
 
-</android.support.percent.PercentRelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
 </ScrollView>

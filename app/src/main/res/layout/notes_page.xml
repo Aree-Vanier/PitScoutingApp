@@ -16,11 +16,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAlignment="center"
-            android:textSize="25dp"
+            android:textSize="@dimen/text_large"
             android:textStyle="bold"
             android:id = "@+id/autoNotesHeader"
             android:layout_marginTop="10dp"/>
-        <EditText
+        <EditText android:textSize="@dimen/text_small"
             android:hint="Auto Strategy"
             android:layout_width="match_parent"
             android:id="@+id/autoNotes"
@@ -32,12 +32,12 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAlignment="center"
-            android:textSize="25dp"
+            android:textSize="@dimen/text_large"
             android:textStyle="bold"
             android:id="@+id/generalNotesHeader"
             android:layout_below="@id/autoNotes"
             android:layout_marginTop="10dp"/>
-        <EditText
+        <EditText android:textSize="@dimen/text_small"
             android:hint="General Notes"
             android:layout_width="match_parent"
             android:id="@+id/generalNotes"
