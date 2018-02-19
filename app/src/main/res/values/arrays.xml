@@ -8,4 +8,10 @@
         <item>Conveyor</item>
         <item>Other</item>
     </string-array>
+    <string-array name="preferences">
+        <item>N/A</item>
+        <item>Scale</item>
+        <item>Switch</item>
+        <item>Vault</item>
+    </string-array>
 </resources>

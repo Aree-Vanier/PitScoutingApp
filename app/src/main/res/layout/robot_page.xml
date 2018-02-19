@@ -191,9 +191,65 @@
                             android:textSize="15dp"/>
                     </TableRow>
                 </TableLayout>
-
             </TableRow>
 
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp">
+
+                <TextView
+                    android:text = "Preference 1:"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="17dp"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:layout_weight="1"
+                    android:id="@+id/firstPref">
+                </Spinner>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp">
+
+                <TextView
+                    android:text = "Preference 2:"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="17dp"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:layout_weight="1"
+                    android:id="@+id/secondPref">
+                </Spinner>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp">
+
+                <TextView
+                    android:text = "Preference 3:"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="17dp"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:layout_weight="1"
+                    android:id="@+id/thirdPref">
+                </Spinner>
+            </TableRow>
         </TableLayout>
 
     </android.support.percent.PercentRelativeLayout>

@@ -26,8 +26,18 @@ public class RobotPage extends Fragment{
 
         mechanism = (Spinner) view.findViewById(R.id.mechanismType);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.mechanisms, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.mechanisms, R.layout.spinner);
         mechanism.setAdapter(adapter);
+
+        int[] spinners = {R.id.firstPref, R.id.secondPref, R.id.thirdPref};
+        adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.preferences, R.layout.spinner);
+
+
+        for(int i : spinners){
+            Spinner s = (Spinner) view.findViewById(i);
+            s.setAdapter(adapter);
+        }
+
 
 //        ((TextView) view.findViewById(R.id.autoPeg)).setTextSize(15);
         return view;

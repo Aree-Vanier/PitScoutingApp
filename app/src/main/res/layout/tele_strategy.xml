@@ -243,6 +243,80 @@
                 android:id="@+id/otherSwitchAccuracy"/>
         </TableRow>
 
+        <TableRow
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1"
+                android:text="Vault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="25dp"
+                android:textStyle="bold"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <TextView
+                android:text="Cycles Expected:"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:layout_gravity="center_vertical"/>
+
+            <EditText
+                android:hint="#"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:inputType="numberDecimal"
+                android:id="@+id/expectedVault"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <TextView
+                android:text="Cycle speed:"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:layout_gravity="center_vertical"/>
+
+            <EditText
+                android:hint="s"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:inputType="numberDecimal"
+                android:id="@+id/vaultSpeed"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <TextView
+                android:text="Accuracy %:"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:layout_gravity="center_vertical"/>
+
+            <EditText
+                android:hint="%"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:inputType="number"
+                android:id="@+id/vaultAccuracy"/>
+        </TableRow>
+
     </TableLayout>
 
 
