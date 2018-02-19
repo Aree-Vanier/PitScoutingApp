@@ -42,9 +42,26 @@
             android:layout_width="match_parent"
             android:id="@+id/generalNotes"
             android:layout_below="@id/generalNotesHeader"/>
+        <TextView
+            android:layout_weight="1"
+            android:text="Important Notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold"
+            android:id="@+id/importantNotesHeader"
+            android:layout_below="@id/generalNotes"
+            android:layout_marginTop="10dp"/>
+        <EditText android:textSize="@dimen/text_small"
+            android:hint="What makes this robot stand out"
+            android:layout_width="match_parent"
+            android:id="@+id/important"
+            android:layout_below="@id/importantNotesHeader"/>
         <Button
             android:text="Save"
-            android:layout_below="@id/generalNotes"
+            android:layout_below="@id/important"
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:id="@+id/save"/>
